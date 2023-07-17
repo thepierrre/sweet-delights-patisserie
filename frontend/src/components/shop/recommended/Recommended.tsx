@@ -5,8 +5,10 @@ import "./Recommended.css";
 const Recommended = () => {
   return (
     <div className="recommended">
-      <RecommendedItem />
-      <RecommendedItem />
+      <div className="recommended-items">
+        <RecommendedItem />
+        <RecommendedItem />
+      </div>
     </div>
   );
 };

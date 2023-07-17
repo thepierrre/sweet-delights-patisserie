@@ -13,6 +13,7 @@ const RecommendedItem = () => {
         </div>
         <div className="recommended-item__text">
           <h2>Lemon Pie</h2>
+          <p>€20.99</p>
           <div className="recommended-item__text-body">
             <div className="recommended-item__description">
               Indulge in our zesty lemon pie! With a buttery, flaky crust and
@@ -23,7 +24,6 @@ const RecommendedItem = () => {
             <div className="recommended-item__actions">
               <div className="actions_plus">+1</div>
               <div className="actions_add">Add to Cart</div>
-              <div className="actions_price">€20.99</div>
             </div>
           </div>
         </div>

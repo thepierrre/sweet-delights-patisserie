@@ -1,4 +1,5 @@
 .product-nav {
+  margin-top: 1rem;
   display: flex;
   gap: 3rem;
 }
@@ -7,6 +8,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  transition: transform 0.3s ease-in-out;
 }
 
 .product-cat > p {
@@ -14,12 +16,11 @@
   font-size: 1.7rem;
   color: rgb(26, 26, 26);
   margin: 0.75rem;
-  transition: transform 0.5s;
 }
 
-.product-cat > p:hover {
-  transition: transform 0.2s;
-  transform: scale(1.08);
+.product-cat:hover {
+  transition: transform 0.3s ease-in-out;
+  transform: scale(1.07);
 }
 
 .product-cat__logo {
@@ -31,12 +32,6 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  transition: transform 0.5s;
-}
-
-.product-cat__logo:hover {
-  transition: transform 0.5s;
-  transform: scale(1.1);
 }
 
 .product-cat__logo > img {

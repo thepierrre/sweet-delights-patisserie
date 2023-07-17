@@ -18,3 +18,6 @@ const candy =
 
 const lemon_pie =
   "https://www.freepik.com/free-photo/homemade-newyork-cheesecake-with-lemon-mint_9280511.htm#query=lemon%20pie&position=4&from_view=search&track=ais";
+
+const chocolate_cake =
+  "https://www.freepik.com/free-photo/chocolate-cake-decorated-with-chocolate-pieces_6751970.htm#query=chocolate%20cake&position=37&from_view=search&track=ais";

@@ -1,4 +1,12 @@
 .recommended {
   display: flex;
-  gap: 2rem;
+  flex-direction: column;
+  align-items: center;
+  font-size: 1.5rem;
+  margin-top: 3rem;
+}
+
+.recommended-items {
+  display: flex;
+  gap: 3rem;
 }
