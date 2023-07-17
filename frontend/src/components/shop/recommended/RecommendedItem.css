@@ -1,0 +1,54 @@
+@import url("https://fonts.googleapis.com/css2?family=Caveat:wght@500&display=swap");
+
+.recommended-item {
+  display: flex;
+  gap: 1rem;
+  width: 30rem;
+  height: 22rem;
+  padding: 0;
+  background: rgb(255, 236, 239);
+  border-radius: 1rem;
+  font-family: "Ubuntu", sans-serif;
+}
+
+.recommended-item__text {
+  display: flex;
+  flex-direction: column;
+  width: 20rem;
+  padding: 1rem;
+}
+
+.recommended-item__text > h2 {
+  font-family: "Caveat", cursive;
+  font-size: 3rem;
+  color: rgb(175, 57, 91);
+  margin: 0 0 1rem 0;
+}
+
+.recommended-item__text-body {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+}
+
+.recommended-item__description {
+  font-size: 1.1rem;
+  padding-right: 0.5rem;
+}
+
+.recommended-item__image {
+  height: 22rem;
+  width: 20rem;
+  border-top-left-radius: 1rem;
+  border-bottom-left-radius: 1rem;
+  overflow: hidden;
+}
+
+.recommended-item__image > img {
+  height: 100%;
+}
+
+.recommended-item__actions {
+  display: flex;
+  gap: 2rem;
+}

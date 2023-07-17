@@ -1,0 +1,15 @@
+@import url("https://fonts.googleapis.com/css2?family=Pacifico&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ubuntu:wght@300&display=swap");
+
+html,
+body {
+  background: white;
+}
+
+.app {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+  gap: 2rem;
+}

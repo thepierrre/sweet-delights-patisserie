@@ -1,0 +1,44 @@
+.product-nav {
+  display: flex;
+  gap: 3rem;
+}
+
+.product-cat {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.product-cat > p {
+  font-family: "Caveat", cursive;
+  font-size: 1.7rem;
+  color: rgb(26, 26, 26);
+  margin: 0.75rem;
+  transition: transform 0.5s;
+}
+
+.product-cat > p:hover {
+  transition: transform 0.2s;
+  transform: scale(1.08);
+}
+
+.product-cat__logo {
+  background: rgb(207, 243, 255);
+  width: 4rem;
+  height: 4rem;
+  padding: 0.8rem;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: transform 0.5s;
+}
+
+.product-cat__logo:hover {
+  transition: transform 0.5s;
+  transform: scale(1.1);
+}
+
+.product-cat__logo > img {
+  max-width: 55px;
+}
