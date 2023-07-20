@@ -77,6 +77,12 @@
   border-radius: 50%;
 }
 
+.actions_plus:hover {
+  background-color: rgb(118, 13, 43);
+  transition: transform 0.3s;
+  transform: scale(1.05);
+}
+
 .actions_add {
   font-size: 1.1rem;
   color: rgb(141, 40, 69);

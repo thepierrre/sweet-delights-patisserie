@@ -1,21 +1,24 @@
-import Card from "../../utils/Card";
+import Card from "../../shared/Card";
 
 import chocolateCake from "../../../static/products/cakes/chocolate-cake.jpg";
 
 import "./ProductItem.css";
 
-const ProductItem = () => {
+const ProductItem = (props: any) => {
+  const { name, description, photoUrl, price } = props;
+
   return (
     <Card>
-      <div className="product-item">
-        <div className="product-item__image">
-          <img src={chocolateCake} />
+      <div className="recommended-item">
+        <div className="recommended-item__image">
+          <img src={photoUrl} />
         </div>
-        <div className="product-item__text">
-          <h3>Chocolate Cake</h3>
-          <div className="product-item__text-body">
-            <div className="product-item__description"></div>
-            <div className="product-item__actions">
+        <div className="recommended-item__text">
+          <h2>{name}</h2>
+          <p>€{price}</p>
+          <div className="recommended-item__text-body">
+            <div className="recommended-item__description">{description}</div>
+            <div className="recommended-item__actions">
               <div className="actions_plus">+1</div>
               <div className="actions_add">Add to Cart</div>
             </div>

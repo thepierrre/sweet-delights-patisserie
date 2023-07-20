@@ -1,0 +1,54 @@
+.address-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  width: 17rem;
+  margin-bottom: 2rem;
+}
+
+h3 {
+  font-family: "Ubuntu";
+  color: rgb(175, 57, 91);
+  font-size: 1.75rem;
+  text-align: center;
+  margin-bottom: 3rem;
+}
+
+label {
+  width: 17rem;
+  font-family: "Ubuntu";
+  color: rgb(63, 63, 63);
+  font-size: 1.1rem;
+  text-align: center;
+}
+
+input {
+  border: none;
+  font-size: 1rem;
+  width: 15rem;
+  padding: 1rem;
+  border-radius: 1rem;
+  margin-top: 0.5rem;
+  box-shadow: 1px 1px 1px #d0d0d0 inset;
+}
+
+.total > p {
+  text-align: center;
+}
+
+.cart-buttons {
+  display: flex;
+  gap: 2rem;
+}
+
+.go-back {
+  color: rgb(118, 13, 43);
+  background: none;
+  box-shadow: inset 0px 0px 0px 3px rgb(163, 28, 66);
+}
+
+.go-back:hover {
+  background: none;
+  color: rgb(118, 13, 43);
+  box-shadow: inset 0px 0px 0px 3px rgb(118, 13, 43);
+}

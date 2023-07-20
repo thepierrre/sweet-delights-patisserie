@@ -1,0 +1,81 @@
+.cart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 45rem;
+  padding: 2rem;
+  background: rgb(219, 244, 253);
+  border-radius: 1rem;
+}
+
+.cart > h2 {
+  margin: 0;
+  font-family: "Pacifico";
+  font-size: 3rem;
+  color: rgb(175, 57, 91);
+}
+
+.cart-products-list {
+  display: flex;
+  flex-direction: column;
+  font-family: "Ubuntu";
+  color: rgb(63, 63, 63);
+  font-size: 1.2rem;
+  padding: 0;
+  margin-bottom: 0;
+}
+
+.cart-products-list > li {
+  display: flex;
+  gap: 0.5rem;
+  border-bottom: 1px solid rgb(63, 63, 63);
+}
+
+.cart-item__amount {
+  display: flex;
+  gap: 0.3rem;
+  color: rgb(175, 57, 91);
+  transition: transform 0.1s ease-in-out;
+}
+
+.cart-item__amount .increase {
+  transition: transform 0.1s ease-in-out;
+}
+
+.cart-item__amount .increase:hover {
+  color: rgb(118, 13, 43);
+  transition: transform 0.1s ease-in-out;
+  transform: scale(1.4);
+}
+
+.cart-product-item__name {
+  margin-left: 1.5rem;
+  width: 30rem;
+}
+
+.total {
+  width: 85%;
+  color: rgb(175, 57, 91);
+  font-family: "Ubuntu";
+  font-size: 1.3rem;
+}
+
+.total > p {
+  text-align: right;
+}
+
+.cart-button {
+  margin-top: 1rem;
+  border: none;
+  padding: 1rem;
+  width: 13rem;
+  border-radius: 1rem;
+  color: white;
+  font-family: "Ubuntu";
+  font-size: 1.2rem;
+  background: rgb(175, 57, 91);
+}
+
+.cart-button:hover {
+  background: rgb(118, 13, 43);
+}

@@ -1,0 +1,18 @@
+.h2 {
+  margin-bottom: 3rem;
+}
+
+.thank-you {
+  margin: 1rem 0 0 0;
+  font-family: "Pacifico";
+  color: rgb(26, 26, 26);
+  font-size: 2.5rem;
+}
+
+.packet-image {
+  margin-top: 1rem;
+}
+
+.packet-image > img {
+  max-width: 200px;
+}

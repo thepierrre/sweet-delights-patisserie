@@ -1,4 +1,6 @@
-import Card from "../../utils/Card";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
+import Card from "../../shared/Card";
 
 import "./RecommendedItem.css";
 
@@ -24,6 +26,12 @@ const RecommendedItem = () => {
             <div className="recommended-item__actions">
               <div className="actions_plus">+1</div>
               <div className="actions_add">Add to Cart</div>
+              <div className="actions_plus">
+                <EditIcon fontSize="small" />
+              </div>
+              <div className="actions_plus">
+                <DeleteIcon fontSize="small" />
+              </div>
             </div>
           </div>
         </div>
