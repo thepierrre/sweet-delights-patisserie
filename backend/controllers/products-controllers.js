@@ -4,22 +4,6 @@ const HttpError = require("../models/http-error");
 const Product = require("../models/product");
 const Category = require("../models/category");
 
-const getProductsByCategoryName = async (req, res, next) => {
-  const categoryName = req.params.categoryName;
-
-  let categoryWithProducts;
-  try {
-    categoryWithProducts = await Category.findOne({
-      name: categoryName,
-    }).populate("products");
-  } catch (err) {
-    const error = new HttpError("Fetching products failed.", 500);
-    return next(error);
-  }
-
-  res.json({ categoryWithProducts: categoryWithProducts.toObject() });
-};
-
 const createProduct = async (req, res, next) => {
   const { name, price, description, category, photoUrl, creator } = req.body;
 
@@ -51,6 +35,22 @@ const createProduct = async (req, res, next) => {
   }
 
   res.status(201).json({ product: createdProduct });
+};
+
+const getProductsByCategoryName = async (req, res, next) => {
+  const categoryName = req.params.categoryName;
+
+  let categoryWithProducts;
+  try {
+    categoryWithProducts = await Category.findOne({
+      name: categoryName,
+    }).populate("products");
+  } catch (err) {
+    const error = new HttpError("Fetching products failed.", 500);
+    return next(error);
+  }
+
+  res.json({ categoryWithProducts: categoryWithProducts.toObject() });
 };
 
 const deleteProduct = (req, res, next) => {};

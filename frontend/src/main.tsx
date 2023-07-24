@@ -13,6 +13,7 @@ import AddProduct from "./components/shop/products/AddProduct.tsx";
 import EditProduct from "./components/shop/products/EditProduct.tsx";
 import Login from "./components/login/login.tsx";
 import Signup from "./components/login/signup.tsx";
+import LoginContextProvider from "./LoginContextProvider.tsx";
 import ProductsContextProvider from "./ProductsContextProvider.jsx";
 import "./index.css";
 
@@ -39,8 +40,10 @@ const router = createBrowserRouter([
 
 ReactDOM.createRoot(document.getElementById("root")!).render(
   <React.StrictMode>
-    <ProductsContextProvider>
-      <RouterProvider router={router} />
-    </ProductsContextProvider>
+    <LoginContextProvider>
+      <ProductsContextProvider>
+        <RouterProvider router={router} />
+      </ProductsContextProvider>
+    </LoginContextProvider>
   </React.StrictMode>
 );

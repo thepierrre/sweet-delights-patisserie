@@ -8,9 +8,7 @@ import "./Products.css";
 
 const Products = () => {
   const { products, setProducts } = useContext(ProductsContext);
-  // const [products, setProducts] = useState();
   const { categoryName } = useParams();
-  // const [products, setProducts] = useRecoilState(productsState);
 
   useEffect(() => {
     const fetchProducts = async () => {
@@ -32,6 +30,7 @@ const Products = () => {
 
   const productItems = products.map((product) => (
     <ProductItem
+      id={product["_id"]}
       key={product["_id"]}
       name={product["name"]}
       description={product["description"]}

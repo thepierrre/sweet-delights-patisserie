@@ -1,26 +1,49 @@
-import Card from "../../shared/Card";
+import { useContext } from "react";
 
-import chocolateCake from "../../../static/products/cakes/chocolate-cake.jpg";
+import Card from "../../shared/Card";
 
 import "./ProductItem.css";
 
+import ProductsContext from "../../../context/products-context";
+
 const ProductItem = (props: any) => {
-  const { name, description, photoUrl, price } = props;
+  const { id, name, description, photoUrl, price } = props;
+  const { addToCart } = useContext(ProductsContext);
+
+  // const addToCart = () => {
+  //   const newItem: CartItem = { id, name };
+  //   setCart((prevCart: Cart) => ({
+  //     ...prevCart,
+  //     items: [...prevCart.items, newItem],
+  //   }));
+  //   console.log(cart);
+  // };
+
+  const onAddToCart = (id: string, name: string) => {
+    addToCart(id, name);
+  };
 
   return (
     <Card>
-      <div className="recommended-item">
-        <div className="recommended-item__image">
+      <div className="product-item">
+        <div className="product-item__image">
           <img src={photoUrl} />
         </div>
-        <div className="recommended-item__text">
+        <div className="product-item__text">
           <h2>{name}</h2>
           <p>€{price}</p>
-          <div className="recommended-item__text-body">
-            <div className="recommended-item__description">{description}</div>
-            <div className="recommended-item__actions">
-              <div className="actions_plus">+1</div>
-              <div className="actions_add">Add to Cart</div>
+          <div className="product-item__text-body">
+            <div className="product-item__description">{description}</div>
+            <div className="product-item__actions">
+              <p className="increase">−</p>
+              <div className="actions_plus">1</div>
+              <p className="increase">+</p>
+              <div
+                className="actions_add"
+                onClick={() => onAddToCart(id, name)}
+              >
+                Add to Cart
+              </div>
             </div>
           </div>
         </div>

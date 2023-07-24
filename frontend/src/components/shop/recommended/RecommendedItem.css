@@ -4,7 +4,7 @@
   display: flex;
   gap: 1rem;
   width: 30rem;
-  height: 22rem;
+  height: 25rem;
   padding-right: 1rem;
   background: rgb(255, 239, 241);
   border-radius: 1rem;
@@ -20,9 +20,11 @@
 
 .recommended-item__text > h2 {
   font-family: "Caveat", cursive;
-  font-size: 3.2rem;
+  font-size: 3rem;
   color: rgb(175, 57, 91);
-  margin: 1rem 0 0 0;
+  text-align: center;
+  line-height: 90%;
+  margin: 1rem 0 1rem 0;
 }
 
 .recommended-item__text > p {
@@ -44,6 +46,7 @@
   color: rgb(63, 63, 63);
   line-height: 140%;
   padding-right: 0.5rem;
+  height: 10rem;
 }
 
 .recommended-item__description > p {
@@ -51,8 +54,8 @@
 }
 
 .recommended-item__image {
-  height: 22rem;
-  width: 20rem;
+  height: 25rem;
+  width: 2rem;
   border-top-left-radius: 1rem;
   border-bottom-left-radius: 1rem;
   overflow: hidden;

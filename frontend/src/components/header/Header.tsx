@@ -1,21 +1,29 @@
+import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 
+import LoginContext from "../../context/login-context";
 import "./Header.css";
 import mainLogo from "../../static/main-logo.png";
 
 const Header = () => {
+  const { loggedIn } = useContext(LoginContext);
   return (
     <header className="header">
-      <div className="main-logo">
-        <div className="main-logo__picture">
-          <img src={mainLogo} />
+      <div className="upper-header">
+        <div className="main-logo">
+          <div className="main-logo__picture">
+            <img src={mainLogo} />
+          </div>
+          <div className="main-logo__text">
+            <h1>Sweet Delights</h1>
+            <h2>— Est. 1954 —</h2>
+          </div>
+          <div className="main-logo__picture">
+            <img src={mainLogo} />
+          </div>
         </div>
-        <div className="main-logo__text">
-          <h1>Sweet Delights</h1>
-          <h2>— Est. 1954 —</h2>
-        </div>
-        <div className="main-logo__picture">
-          <img src={mainLogo} />
+        <div className="login-info">
+          <p>Logged in as {loggedIn}</p>
         </div>
       </div>
       <nav className="main-nav">

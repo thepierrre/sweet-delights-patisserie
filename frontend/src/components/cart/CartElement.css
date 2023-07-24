@@ -1,0 +1,21 @@
+.cart-product-item__name {
+  margin-left: 1.5rem;
+  width: 30rem;
+}
+
+.cart-item__amount {
+  display: flex;
+  gap: 0.3rem;
+  color: rgb(175, 57, 91);
+  transition: transform 0.1s ease-in-out;
+}
+
+.cart-item__amount .increase {
+  transition: transform 0.1s ease-in-out;
+}
+
+.cart-item__amount .increase:hover {
+  color: rgb(118, 13, 43);
+  transition: transform 0.1s ease-in-out;
+  transform: scale(1.4);
+}

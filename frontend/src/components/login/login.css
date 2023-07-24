@@ -1,0 +1,25 @@
+.cart h2 {
+  margin-bottom: 2rem;
+}
+
+.cart-actions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.switch-text {
+  font-family: "Ubuntu";
+  font-size: 1.3rem;
+  color: rgb(63, 63, 63);
+}
+
+.switch-text__link {
+  text-decoration: none;
+  color: rgb(175, 57, 91);
+}
+
+.switch-text__link:hover {
+  text-decoration: none;
+  color: rgb(118, 13, 43);
+}
