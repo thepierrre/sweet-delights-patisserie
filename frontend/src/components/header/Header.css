@@ -51,6 +51,7 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: center;
 }
 
 .main-logo__text h1 {
@@ -80,13 +81,18 @@
 }
 
 .main-nav > ul {
+  width: 100%;
   margin: 0;
   padding: 0;
   display: flex;
+  justify-content: center;
   list-style: none;
 }
 
 .main-nav__element {
+  display: flex;
+  justify-content: center;
+  align-items: center;
   text-decoration: none;
   color: white;
   padding: 1rem 2rem 1rem 2rem;
@@ -102,4 +108,38 @@
 
 .logo-image {
   max-width: 200px;
+}
+
+@media only screen and (max-width: 600px) {
+  .main-logo {
+    gap: 0.25rem;
+    padding: 0.2rem;
+  }
+
+  .main-logo__text > h1 {
+    font-size: 1.8rem;
+  }
+
+  .main-logo__text > h2 {
+    font-size: 1.1rem;
+  }
+
+  .main-logo__picture > img {
+    max-width: 80px;
+    max-height: 80px;
+  }
+
+  .main-nav {
+    gap: 0;
+  }
+
+  .main-nav__element {
+    width: 4rem;
+    padding: 0.75rem 0 0.75rem 0;
+    font-size: 1rem;
+  }
+
+  .main-nav__element:last-child {
+    width: 6rem;
+  }
 }

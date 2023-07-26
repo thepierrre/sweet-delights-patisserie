@@ -1,8 +1,8 @@
-import axios from "axios";
 import { useEffect, useContext } from "react";
 import { useParams } from "react-router-dom";
 import ProductsContext from "../../../context/products-context";
 import ProductItem from "./ProductItem";
+import axios from "../../../axiosInstance";
 
 import "./Products.css";
 
@@ -13,9 +13,7 @@ const Products = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get(
-          `http://localhost:5003/api/products/${categoryName}`
-        );
+        const res = await axios.get(`products/${categoryName}`);
 
         let response = res.data.categoryWithProducts.products;
         setProducts(response);

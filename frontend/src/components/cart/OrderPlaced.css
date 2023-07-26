@@ -16,3 +16,9 @@
 .packet-image > img {
   max-width: 200px;
 }
+
+@media only screen and (max-width: 600px) {
+  .packet-image > img {
+    max-width: 120px;
+  }
+}

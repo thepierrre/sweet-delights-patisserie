@@ -1,9 +1,9 @@
 import { useContext, useEffect } from "react";
-import axios from "axios";
 import { Link } from "react-router-dom";
 import useForm from "../../hooks/form-hook";
 import LoginContext from "../../context/login-context";
 import Card from "../shared/Card";
+import axios from "../../axiosInstance";
 
 import "./login.css";
 
@@ -14,31 +14,20 @@ const LogIn = () => {
     password: "",
   });
 
-  const getSessionIdFromCookie = () => {
-    const cookieArray = document.cookie.split(";");
-    const sessionIdCookie = cookieArray.find((cookie) =>
-      cookie.trim().startsWith("sessionId=")
-    );
-    if (sessionIdCookie) {
-      return sessionIdCookie.split("=")[1];
-    }
-    return null;
-  };
-
   useEffect(() => {
     const fetchUserInformation = async () => {
-      const sessionId = getSessionIdFromCookie();
-      if (sessionId) {
-        try {
-          const response = await axios.get(
-            `http://localhost:5003/api/session/${sessionId}`
-          );
-          const { name } = response.data.user;
-          setLoggedIn(name);
-        } catch (err) {
-          console.log(err);
-        }
-      }
+      // // const sessionId = getSessionIdFromCookie();
+      // if (sessionId) {
+      //   try {
+      //     const response = await axios.get(
+      //       `http://localhost:5003/api/session/${sessionId}`
+      //     );
+      //     const { name } = response.data.user;
+      //     setLoggedIn(name);
+      //   } catch (err) {
+      //     console.log(err);
+      //   }
+      // }
     };
 
     fetchUserInformation();
@@ -62,7 +51,7 @@ const LogIn = () => {
 
     if (isFormValid) {
       try {
-        const response = await axios.post("http://localhost:5003/api/login", {
+        const response = await axios.post("login", {
           email: formValues.email,
           password: formValues.password,
         });

@@ -24,31 +24,26 @@ const ProductItem = (props: any) => {
   };
 
   return (
-    <Card>
-      <div className="product-item">
-        <div className="product-item__image">
-          <img src={photoUrl} />
-        </div>
-        <div className="product-item__text">
-          <h2>{name}</h2>
-          <p>€{price}</p>
-          <div className="product-item__text-body">
-            <div className="product-item__description">{description}</div>
-            <div className="product-item__actions">
-              <p className="increase">−</p>
-              <div className="actions_plus">1</div>
-              <p className="increase">+</p>
-              <div
-                className="actions_add"
-                onClick={() => onAddToCart(id, name)}
-              >
-                Add to Cart
-              </div>
+    <div className="product-item">
+      <div className="product-item__image">
+        <img src={photoUrl} />
+      </div>
+      <div className="product-item__text">
+        <h2>{name}</h2>
+        <p>€{price}</p>
+        <div className="product-item__text-body">
+          <div className="product-item__description">{description}</div>
+          <div className="product-item__actions">
+            <p className="increase">−</p>
+            <div className="actions_plus">1</div>
+            <p className="increase">+</p>
+            <div className="actions_add" onClick={() => onAddToCart(id, name)}>
+              Add to Cart
             </div>
           </div>
         </div>
       </div>
-    </Card>
+    </div>
   );
 };
 

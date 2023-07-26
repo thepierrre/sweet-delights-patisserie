@@ -1,5 +1,5 @@
 .product-nav {
-  margin: 1rem 0 2rem 0;
+  margin: 1rem 0 1rem 0;
   display: flex;
   gap: 3rem;
 }
@@ -44,4 +44,24 @@
 
 .product-cat__logo > img {
   max-width: 55px;
+}
+
+@media only screen and (max-width: 600px) {
+  .product-nav {
+    gap: 1rem;
+    margin-top: 0.3rem;
+  }
+
+  .product-cat__logo {
+    width: 3rem;
+    height: 3rem;
+  }
+
+  .product-cat__logo > img {
+    max-width: 45px;
+  }
+
+  .product-cat > p {
+    font-size: 1.3rem;
+  }
 }

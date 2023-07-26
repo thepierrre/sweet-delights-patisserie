@@ -45,7 +45,7 @@ const CartFinal = () => {
             <button className="cart-button go-back">Back to Cart</button>
           </Link>
           <Link to="/order-placed">
-            <button className="cart-button">Place Order</button>
+            <button className="cart-button buy">Place Order</button>
           </Link>
         </div>
       </div>

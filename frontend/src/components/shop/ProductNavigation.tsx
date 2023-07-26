@@ -36,12 +36,12 @@ const ProductNavigation = () => {
           </div>
           <p>Donuts</p>
         </Link>
-        <Link to="products/Candy" className="product-cat">
+        {/* <Link to="products/Candy" className="product-cat">
           <div className="product-cat__logo">
             <img src={candy} />
           </div>
           <p>Candy</p>
-        </Link>
+        </Link> */}
       </div>
     </>
   );

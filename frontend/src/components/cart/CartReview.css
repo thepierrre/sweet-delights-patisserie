@@ -9,7 +9,7 @@
 }
 
 .cart > h2 {
-  margin: 0;
+  margin: 0 0 1rem 0;
   font-family: "Pacifico";
   font-size: 3rem;
   color: rgb(175, 57, 91);
@@ -20,7 +20,7 @@
   flex-direction: column;
   font-family: "Ubuntu";
   color: rgb(63, 63, 63);
-  font-size: 1.2rem;
+
   padding: 0;
   margin-bottom: 0;
 }
@@ -28,6 +28,7 @@
 .cart-products-list > li {
   display: flex;
   gap: 0.5rem;
+  font-size: 1.2rem;
   border-bottom: 1px solid rgb(63, 63, 63);
 }
 
@@ -63,4 +64,35 @@
   font-family: "Ubuntu";
   font-size: 1.4rem;
   margin: 0 0 1rem 0;
+}
+
+@media only screen and (max-width: 600px) {
+  .cart {
+    width: 95vw;
+    padding: 1.5rem;
+    box-sizing: border-box;
+  }
+
+  .cart > h2 {
+    font-size: 2.2rem;
+  }
+
+  .cart-products-list {
+    width: 100%;
+  }
+
+  .cart-products-list > li {
+    font-size: 1.05rem;
+  }
+
+  .total {
+    margin-top: 1rem;
+    font-size: 1.2rem;
+  }
+
+  .cart-button {
+    font-size: 1rem;
+    padding: 0.75rem;
+    width: 11rem;
+  }
 }

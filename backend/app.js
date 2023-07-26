@@ -19,23 +19,15 @@ app.use(cookieParser());
 
 app.use(
   session({
-    secret: "my-secret",
-    resave: true,
-    saveUninitialized: false,
+    genid: (req) => {
+      return uuidv4(); // Generate a unique session ID using uuid
+    },
+    secret: "your-secret-key",
+    resave: false,
+    saveUninitialized: true,
+    cookie: { maxAge: 604800000, httpOnly: true }, // One week (in milliseconds)
   })
 );
-
-// app.use(
-//   session({
-//     genid: (req) => {
-//       return uuidv4(); // Generate a unique session ID using uuid
-//     },
-//     secret: "your-secret-key",
-//     resave: false,
-//     saveUninitialized: true,
-//     cookie: { maxAge: 604800000, httpOnly: true }, // One week (in milliseconds)
-//   })
-// );
 
 app.use((req, res, next) => {
   res.setHeader("Access-Control-Allow-Origin", "http://localhost:5173");
@@ -43,7 +35,10 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content-Type, Accept, Authorization"
   );
-  res.setHeader("Access-Control-Allow-Methods", "GET, POST, PATCH, DELETE");
+  res.setHeader(
+    "Access-Control-Allow-Methods",
+    "GET, POST, PATCH, DELETE, OPTIONS"
+  );
   res.setHeader("Access-Control-Allow-Credentials", "true"); // If you need to send cookies
   next();
 });
