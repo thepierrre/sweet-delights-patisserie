@@ -1,0 +1,66 @@
+.about {
+  padding: 0;
+}
+
+.about > h2 {
+  margin: 2rem 0 0 0;
+}
+
+.mission {
+  background-color: rgb(255, 239, 241);
+}
+
+.about-element {
+  border-bottom: 0.5rem solid white;
+}
+
+.about-element > h3 {
+  margin: 2rem 0 0 0;
+}
+
+.about-element__content {
+  display: flex;
+  flex-direction: column;
+}
+
+.about-element__content-text {
+  gap: 3rem;
+  text-align: center;
+  width: 100%;
+  padding: 0.5rem 2rem 2rem 2rem;
+  font-size: 1.2rem;
+  box-sizing: border-box;
+  font-family: "Ubuntu";
+  color: rgb(42, 42, 42);
+}
+
+.about-element__content-text:last-child {
+  border-bottom: none;
+}
+
+.about-element__content-image {
+  margin-top: 2rem;
+  width: 100%;
+  height: 20rem;
+  overflow: hidden;
+}
+
+.about-element__content-image > img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.contact {
+  border-bottom: none;
+}
+
+@media only screen and (max-width: 600px) {
+  .about-element > h3 {
+    margin: 1rem 0 0 0;
+  }
+
+  .about-element__content-image {
+    margin: 0;
+  }
+}

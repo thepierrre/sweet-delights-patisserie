@@ -5,7 +5,6 @@
   flex-direction: column;
   width: 32rem;
   height: 35rem;
-  /* padding-right: 1rem; */
   background: rgb(255, 239, 241);
   border-radius: 1rem;
   font-family: "Ubuntu", sans-serif;
@@ -77,10 +76,14 @@
   align-items: center;
   justify-content: center;
   gap: 0.5rem;
+  height: 3rem;
 }
 
-.actions_plus {
+.actions_padded {
+  text-align: center;
   color: white;
+  width: 1.2rem;
+  height: 1.2rem;
   font-size: 1.1rem;
   background: rgb(175, 57, 91);
   padding: 0.6rem;

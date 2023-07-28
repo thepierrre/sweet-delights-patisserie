@@ -42,3 +42,9 @@ const donutChocolate =
 
 const donutWhite =
   "https://www.freepik.com/free-photo/donut-with-topping-sprinkle-pink-background_2554847.htm#page=2&query=donut&position=23&from_view=search&track=sph";
+
+const cheesecake =
+  "https://www.freepik.com/free-photo/cheese-cake_4007048.htm#query=new%20york%20cheesecake&position=6&from_view=search&track=ais";
+
+const cheesecakePhoto =
+  "https://img.freepik.com/free-photo/cheese-cake_74190-5877.jpg?w=1380&t=st=1690468114~exp=1690468714~hmac=f249a40631a043f0db986e8eb3b38232e70e28f77d189381dc87295056ee2812";

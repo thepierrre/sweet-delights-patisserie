@@ -13,6 +13,7 @@ import AddProduct from "./components/shop/products/AddProduct.tsx";
 import EditProduct from "./components/shop/products/EditProduct.tsx";
 import Login from "./components/login/login.tsx";
 import Signup from "./components/login/signup.tsx";
+import About from "./components/about/about.tsx";
 import LoginContextProvider from "./LoginContextProvider.tsx";
 import ProductsContextProvider from "./ProductsContextProvider.jsx";
 import "./index.css";
@@ -26,12 +27,13 @@ const router = createBrowserRouter([
         path: "/home",
         element: <Recommended />,
       },
+      { path: "/about", element: <About /> },
       { path: "/products/:categoryName", element: <Products /> },
       { path: "/cart-review", element: <CartReview /> },
       { path: "/cart-final", element: <CartFinal /> },
       { path: "/order-placed", element: <OrderPlaced /> },
       { path: "/add-product", element: <AddProduct /> },
-      { path: "/edit-product", element: <EditProduct /> },
+      { path: "/edit-product/:productId", element: <EditProduct /> },
       { path: "/login", element: <Login /> },
       { path: "/signup", element: <Signup /> },
     ],

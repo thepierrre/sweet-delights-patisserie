@@ -5,12 +5,14 @@ const Product = require("../models/product");
 const Category = require("../models/category");
 
 const createProduct = async (req, res, next) => {
-  const { name, price, description, category, photoUrl, creator } = req.body;
+  const { name, price, description, category, photoUrl } = req.body;
 
   let categoryObj;
   try {
     categoryObj = await Category.findOne({ name: category }).exec();
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 
   const createdProduct = new Product({
     name,
@@ -18,7 +20,6 @@ const createProduct = async (req, res, next) => {
     description,
     category: categoryObj._id,
     photoUrl,
-    creator,
   });
 
   try {
@@ -37,6 +38,62 @@ const createProduct = async (req, res, next) => {
   res.status(201).json({ product: createdProduct });
 };
 
+const editProduct = async (req, res, next) => {
+  const { name, price, description, photoUrl, category } = req.body;
+  const productId = req.params.productId;
+
+  let categoryObj;
+  try {
+    categoryObj = await Category.findOne({ name: category }).exec();
+    if (!categoryObj) {
+      const error = new HttpError("Category not found.", 404);
+      return next(error);
+    }
+  } catch (err) {
+    const error = new HttpError("Could not find the category.", 500);
+    return next(error);
+  }
+
+  let product;
+  try {
+    product = await Product.findById(productId).populate("category");
+  } catch (err) {
+    const error = new HttpError("Could not find the product.", 500);
+    return next(error);
+  }
+
+  const filter = { _id: productId };
+  const update = {
+    name,
+    price,
+    description,
+    photoUrl,
+    category: categoryObj._id,
+  };
+
+  try {
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
+    await Product.findOneAndUpdate(filter, update).session(sess);
+    await product.category.save();
+    await sess.commitTransaction();
+  } catch (err) {
+    const error = new HttpError("Could not edit the product.", 500);
+    console.log(err);
+    return next(error);
+  }
+
+  try {
+    product = await Product.findById(productId);
+  } catch (err) {
+    const error = new HttpError("Could not find the edited product.", 500);
+    console.log(err);
+    return next(error);
+  }
+
+  res.status(200).json({ product: product.toObject() });
+};
+
 const getProductsByCategoryName = async (req, res, next) => {
   const categoryName = req.params.categoryName;
 
@@ -53,10 +110,40 @@ const getProductsByCategoryName = async (req, res, next) => {
   res.json({ categoryWithProducts: categoryWithProducts.toObject() });
 };
 
-const deleteProduct = (req, res, next) => {};
+const getProductById = async (req, res, next) => {
+  const productId = req.params.productId;
+
+  let product, category;
+  try {
+    product = await Product.findById(productId);
+    category = product.category; // get category id
+    category = await Category.findById(category); // find category with the given id
+    category = category.name; // find out the name of the category with the given id
+  } catch (err) {
+    const error = new HttpError("Fetching the product failed.", 500);
+    return next(error);
+  }
+
+  res.json({ product: product.toObject(), category: category });
+};
+
+const deleteProduct = async (req, res, next) => {
+  const productId = req.params.productId;
+
+  try {
+    await Product.deleteOne({ _id: productId });
+  } catch (err) {
+    const error = new HttpError("Could not delete the product.", 500);
+    return next(error);
+  }
+
+  res.status(200).json({ message: "The product has been deleted." });
+};
 
 module.exports = {
   createProduct,
   getProductsByCategoryName,
+  getProductById,
   deleteProduct,
+  editProduct,
 };

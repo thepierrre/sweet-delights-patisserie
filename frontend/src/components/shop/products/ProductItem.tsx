@@ -1,6 +1,8 @@
+import axios from "../../../axiosInstance";
 import { useContext } from "react";
-
-import Card from "../../shared/Card";
+import { Link } from "react-router-dom";
+import EditIcon from "@mui/icons-material/Edit";
+import DeleteIcon from "@mui/icons-material/Delete";
 
 import "./ProductItem.css";
 
@@ -23,6 +25,14 @@ const ProductItem = (props: any) => {
     addToCart(id, name);
   };
 
+  const handleDeleteProduct = async () => {
+    try {
+      await axios.delete(`products/${id}`);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="product-item">
       <div className="product-item__image">
@@ -35,10 +45,16 @@ const ProductItem = (props: any) => {
           <div className="product-item__description">{description}</div>
           <div className="product-item__actions">
             <p className="increase">−</p>
-            <div className="actions_plus">1</div>
+            <div className="actions_padded">1</div>
             <p className="increase">+</p>
             <div className="actions_add" onClick={() => onAddToCart(id, name)}>
               Add to Cart
+            </div>
+            <Link to={`/edit-product/${id}`} className="actions_padded">
+              <EditIcon fontSize="small" />
+            </Link>
+            <div className="actions_padded" onClick={handleDeleteProduct}>
+              <DeleteIcon fontSize="small" />
             </div>
           </div>
         </div>

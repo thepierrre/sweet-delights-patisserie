@@ -1,4 +1,4 @@
-import { useEffect, useContext } from "react";
+import { useEffect, useContext, useCallback } from "react";
 import { useParams } from "react-router-dom";
 import ProductsContext from "../../../context/products-context";
 import ProductItem from "./ProductItem";
@@ -13,11 +13,9 @@ const Products = () => {
   useEffect(() => {
     const fetchProducts = async () => {
       try {
-        const res = await axios.get(`products/${categoryName}`);
-
+        const res = await axios.get(`products/category/${categoryName}`);
         let response = res.data.categoryWithProducts.products;
         setProducts(response);
-        console.log(products);
       } catch (error) {
         console.error("Error fetching products:", error);
       }
