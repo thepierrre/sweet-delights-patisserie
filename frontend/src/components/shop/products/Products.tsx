@@ -32,6 +32,7 @@ const Products = () => {
       description={product["description"]}
       photoUrl={product["photoUrl"]}
       price={product["price"]}
+      isRecommended={product["isRecommended"]}
     />
   ));
 

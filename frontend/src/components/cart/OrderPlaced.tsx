@@ -1,3 +1,5 @@
+import { useContext, useEffect } from "react";
+import ProductsContext from "../../context/products-context";
 import Card from "../shared/Card";
 
 import "./OrderPlaced.css";
@@ -5,10 +7,45 @@ import "./OrderPlaced.css";
 import packet from "../../static/others/package.png";
 
 const OrderPlaced = () => {
+  const { purchaseInfo } = useContext(ProductsContext);
+
+  useEffect(() => {
+    console.log(purchaseInfo);
+  }, []);
+
   return (
     <Card>
       <div className="cart">
         <h2>Order Placed!</h2>
+        <div className="order-placed__summary">
+          <div className="order-placed__summary address-data">
+            <h3>The order will be shipped to:</h3>
+            <p>
+              {purchaseInfo.firstName} {purchaseInfo.lastName}
+            </p>
+            <p>{purchaseInfo.street}</p>
+            <p>
+              {purchaseInfo.postalCode} {purchaseInfo.city}
+            </p>
+          </div>
+          <div className="order-placed__summary payment-info">
+            {purchaseInfo.paymentOption === "cash" && (
+              <p>
+                The payment will be collected in cash when the order is
+                delivered to your address.
+              </p>
+            )}
+            {purchaseInfo.paymentOption === "transfer" && (
+              <>
+                <h3>
+                  Please transfer the amount
+                  <br /> of €{purchaseInfo.totalCost} to the following account:
+                </h3>
+                <p>DE900 300 000 120 123</p>
+              </>
+            )}
+          </div>
+        </div>
         <div className="packet-image">
           <img src={packet} />
         </div>

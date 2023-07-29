@@ -1,30 +1,41 @@
 import axios from "../../../axiosInstance";
 import useForm from "../../../hooks/form-hook";
+import Checkbox from "@mui/material/Checkbox";
 import Card from "../../shared/Card";
-
 import "./AddProduct.css";
 
 const AddProduct = () => {
-  const { formValues, formValidity, handleInputChange, isFormValid } = useForm({
+  const {
+    formValues,
+    formValidity,
+    handleInputChange,
+    isFormValid,
+    isFormSubmitted,
+    setIsFormSubmitted,
+  } = useForm({
     name: "",
-    price: "",
+    price: undefined,
     description: "",
     category: "",
     photoUrl: "",
+    isRecommended: false,
   });
 
   const addProductHandler = async (event: React.FormEvent) => {
     event.preventDefault();
+    setIsFormSubmitted(true);
 
     if (isFormValid) {
       try {
-        await axios.post("products", {
+        const product = await axios.post("products", {
           name: formValues.name,
           price: formValues.price,
           description: formValues.description,
           category: formValues.category,
           photoUrl: formValues.photoUrl,
+          isRecommended: formValues.isRecommended,
         });
+        console.log(product);
       } catch (err) {
         console.log(err);
       }
@@ -51,6 +62,7 @@ const AddProduct = () => {
             Price:
             <input
               type="number"
+              className="form-input"
               step={0.01}
               name="price"
               value={formValues.price}
@@ -77,6 +89,7 @@ const AddProduct = () => {
             <input
               type="text"
               name="photoUrl"
+              className="form-input"
               value={formValues.photoUrl}
               onChange={handleInputChange}
             />
@@ -91,6 +104,21 @@ const AddProduct = () => {
               onChange={handleInputChange}
             />
           </label>
+          <label>
+            Recommended?
+            <Checkbox
+              name="isRecommended"
+              checked={formValues.isRecommended}
+              onChange={handleInputChange}
+            ></Checkbox>
+          </label>
+          <div className="form-error">
+            {isFormSubmitted && !isFormValid && (
+              <p className="form-error-message">
+                Please fill in all the fields!
+              </p>
+            )}
+          </div>
           <button className="cart-button" type="submit">
             Add Product
           </button>

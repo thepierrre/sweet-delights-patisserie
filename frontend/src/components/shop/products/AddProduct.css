@@ -11,7 +11,7 @@
   width: 27rem;
 }
 
-.product-form > label > input {
+.product-form > label > .form-input {
   width: 25rem;
 }
 
@@ -38,10 +38,35 @@
   font-size: 1rem;
 }
 
-input,
+.form-input,
 select,
 textarea {
   color: rgb(49, 49, 49);
+}
+
+.input-checkbox {
+  appearance: none;
+  border: none;
+  width: 2rem;
+  height: 2rem;
+  background-color: white;
+}
+
+.input-checkbox:checked {
+  background-color: #007bff; /* Change the background color when the checkbox is checked */
+  border-color: #007bff;
+}
+
+.form-error {
+  height: 1rem;
+  display: flex;
+  align-items: center;
+}
+
+.form-error-message {
+  font-family: "Ubuntu";
+  font-size: 1.2rem;
+  color: rgb(222, 0, 0);
 }
 
 @media only screen and (max-width: 600px) {

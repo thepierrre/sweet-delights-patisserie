@@ -52,7 +52,7 @@ app.use("/api/session/:sessionId", sessionRoutes);
 
 mongoose
   .connect(
-    "mongodb+srv://piotr_o:Yt8DkBvBq3buLwHZ@shop-cluster.dstrzvj.mongodb.net/shop?retryWrites=true&w=majority"
+    "mongodb+srv://piotrowczarczyk98:A8pQkRvBeV5IoUVh@e-shop-cluster.jfp1kue.mongodb.net/shop-app?retryWrites=true&w=majority"
   )
   .then(() => {
     app.listen(port);

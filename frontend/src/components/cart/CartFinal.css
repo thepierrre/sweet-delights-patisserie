@@ -10,7 +10,11 @@ h3 {
   color: rgb(175, 57, 91);
   font-size: 1.75rem;
   text-align: center;
-  margin: 0 0 3rem 0;
+  margin: 0 0 2rem 0;
+}
+
+.payment {
+  margin-top: 2rem;
 }
 
 label {
@@ -50,6 +54,20 @@ input {
   background: none;
   color: rgb(118, 13, 43);
   box-shadow: inset 0px 0px 0px 3px rgb(118, 13, 43);
+}
+
+.payment-menu {
+  width: 17rem;
+  padding: 1rem;
+  margin-top: 0.5rem;
+  border: none;
+  border-radius: 1rem;
+  box-shadow: 1px 1px 1px #d0d0d0 inset;
+  font-size: 1rem;
+}
+
+.cart-button.buy:disabled {
+  background-color: rgb(164, 164, 164);
 }
 
 @media only screen and (max-width: 600px) {

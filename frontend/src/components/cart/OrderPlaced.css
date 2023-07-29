@@ -17,8 +17,39 @@
   max-width: 200px;
 }
 
+.order-placed__summary .address-data,
+.order-placed__summary .payment-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.order-placed__summary .address-data > h3,
+.order-placed__summary .payment-info > h3 {
+  font-size: 1.4rem;
+  margin: 0 0 1.5rem 0;
+}
+
+.order-placed__summary .payment-info > h3 {
+  line-height: 2rem;
+}
+
+.order-placed__summary .address-data > p,
+.order-placed__summary .payment-info > p {
+  margin: 0.25rem;
+  font-family: "Ubuntu";
+  font-size: 1.1rem;
+  color: rgb(63, 63, 63);
+}
+
 @media only screen and (max-width: 600px) {
   .packet-image > img {
     max-width: 120px;
+  }
+
+  .order-placed__summary .address-data > h3,
+  .order-placed__summary .payment-info > h3 {
+    font-size: 1.25rem;
   }
 }

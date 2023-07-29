@@ -5,7 +5,14 @@ const Product = require("../models/product");
 const Category = require("../models/category");
 
 const createProduct = async (req, res, next) => {
-  const { name, price, description, category, photoUrl } = req.body;
+  const { name, price, description, category, photoUrl, isRecommended } =
+    req.body;
+
+  // Check if all the required fields have been filled in.
+  if (!name || !price || !description || !category || !photoUrl) {
+    const error = new HttpError("Please fill in all the fields.", 400);
+    return next(error);
+  }
 
   let categoryObj;
   try {
@@ -20,6 +27,7 @@ const createProduct = async (req, res, next) => {
     description,
     category: categoryObj._id,
     photoUrl,
+    isRecommended,
   });
 
   try {
@@ -39,7 +47,8 @@ const createProduct = async (req, res, next) => {
 };
 
 const editProduct = async (req, res, next) => {
-  const { name, price, description, photoUrl, category } = req.body;
+  const { name, price, description, photoUrl, category, isRecommended } =
+    req.body;
   const productId = req.params.productId;
 
   let categoryObj;
@@ -69,6 +78,7 @@ const editProduct = async (req, res, next) => {
     description,
     photoUrl,
     category: categoryObj._id,
+    isRecommended,
   };
 
   try {
@@ -140,10 +150,26 @@ const deleteProduct = async (req, res, next) => {
   res.status(200).json({ message: "The product has been deleted." });
 };
 
+const getRecommendedProducts = async (req, res, next) => {
+  let products;
+  try {
+    products = await Product.find({ isRecommended: true });
+  } catch (err) {
+    const error = new HttpError(
+      "Could not fetch the recommended products.",
+      500
+    );
+    return next(error);
+  }
+
+  res.json({ products: products.map((product) => product.toObject()) });
+};
+
 module.exports = {
   createProduct,
   getProductsByCategoryName,
   getProductById,
   deleteProduct,
   editProduct,
+  getRecommendedProducts,
 };

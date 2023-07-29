@@ -11,14 +11,21 @@
 }
 
 .login-info {
+  background: rgb(219, 244, 253);
+  width: 100vw;
+  height: 2rem;
   display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0.5rem 5rem 0 0;
+  /* display: flex;
   align-items: center;
   z-index: 10;
   position: fixed;
   height: 9rem;
   right: 0;
   padding-right: 4rem;
-  color: rgb(41, 41, 41);
+  color: rgb(41, 41, 41); */
 }
 
 .login-info > p {
@@ -33,7 +40,7 @@
   width: 100%;
   height: 7rem;
   background: rgb(219, 244, 253);
-  padding: 1rem;
+  padding: 0 1rem 1rem 1rem;
   gap: 1.5rem;
 }
 

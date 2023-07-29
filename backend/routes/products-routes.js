@@ -9,6 +9,7 @@ router.get(
 );
 router.post("/", productsControllers.createProduct);
 router.get("/product/:productId", productsControllers.getProductById);
+router.get("/recommended", productsControllers.getRecommendedProducts);
 router.delete("/:productId", productsControllers.deleteProduct);
 router.patch("/:productId", productsControllers.editProduct);
 

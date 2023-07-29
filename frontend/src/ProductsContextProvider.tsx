@@ -1,6 +1,11 @@
 import { useState, ReactNode } from "react";
 
-import ProductsContext, { Cart, Product } from "./context/products-context";
+import ProductsContext, {
+  Cart,
+  Product,
+  RecommendedProduct,
+  PurchaseInfo,
+} from "./context/products-context";
 
 interface Props {
   children: ReactNode;
@@ -8,7 +13,13 @@ interface Props {
 
 const ProductsContextProvider: React.FC<Props> = (props) => {
   const { children } = props;
+  const [purchaseInfo, setPurchaseInfo] = useState<PurchaseInfo>(
+    {} as PurchaseInfo
+  );
   const [products, setProducts] = useState<Product[]>([]);
+  const [recommendedProducts, setRecommendedProducts] = useState<
+    RecommendedProduct[]
+  >([]);
   const [cart, setCart] = useState<Cart>({ items: [] });
 
   const addToCart = (id: string, name: string): void => {
@@ -47,8 +58,12 @@ const ProductsContextProvider: React.FC<Props> = (props) => {
   return (
     <ProductsContext.Provider
       value={{
+        purchaseInfo,
+        setPurchaseInfo,
+        recommendedProducts,
         products,
         cart,
+        setRecommendedProducts,
         setProducts,
         setCart,
         addToCart,

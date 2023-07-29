@@ -6,6 +6,16 @@ export interface Product {
   description: string;
   photoUrl: string;
   price: number;
+  isRecommended: boolean;
+}
+
+export interface RecommendedProduct {
+  _id: string;
+  name: string;
+  description: string;
+  photoUrl: string;
+  price: number;
+  isRecommended: boolean;
 }
 
 export interface CartItem {
@@ -18,7 +28,21 @@ export interface Cart {
   items: CartItem[];
 }
 
+export interface PurchaseInfo {
+  paymentOption: string;
+  firstName: string;
+  lastName: string;
+  totalCost: number;
+  street: string;
+  city: string;
+  postalCode: string;
+}
+
 interface ProductsContextType {
+  purchaseInfo: PurchaseInfo;
+  setPurchaseInfo: Dispatch<SetStateAction<PurchaseInfo>>;
+  recommendedProducts: RecommendedProduct[];
+  setRecommendedProducts: Dispatch<SetStateAction<RecommendedProduct[]>>;
   products: Product[];
   setProducts: Dispatch<SetStateAction<Product[]>>;
   cart: Cart;

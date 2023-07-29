@@ -9,6 +9,9 @@ const Header = () => {
   const { loggedIn } = useContext(LoginContext);
   return (
     <header className="header">
+      <div className="login-info">
+        <p>Logged in as {loggedIn}</p>
+      </div>
       <div className="upper-header">
         <div className="main-logo">
           <div className="main-logo__picture">
@@ -21,9 +24,6 @@ const Header = () => {
           <div className="main-logo__picture">
             <img src={mainLogo} />
           </div>
-        </div>
-        <div className="login-info">
-          <p>Logged in as {loggedIn}</p>
         </div>
       </div>
       <nav className="main-nav">
