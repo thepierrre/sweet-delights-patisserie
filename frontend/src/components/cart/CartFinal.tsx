@@ -7,11 +7,10 @@ import ProductsContext from "../../context/products-context";
 import "./CartFinal.css";
 
 const CartFinal = () => {
-  const { setPurchaseInfo } = useContext(ProductsContext);
+  const { purchaseInfo, setPurchaseInfo } = useContext(ProductsContext);
 
   const {
     formValues,
-    formValidity,
     handleInputChange,
     isFormValid,
     isFormSubmitted,
@@ -19,7 +18,7 @@ const CartFinal = () => {
   } = useForm({
     firstName: "",
     lastName: "",
-    totalCost: undefined,
+    // totalCost: undefined,
     street: "",
     city: "",
     postalCode: "",
@@ -39,6 +38,7 @@ const CartFinal = () => {
       postalCode: formValues.postalCode,
       paymentOption: formValues.paymentOption,
     });
+    console.log(purchaseInfo);
   };
 
   return (
@@ -85,7 +85,11 @@ const CartFinal = () => {
                 type="text"
                 name="city"
                 value={formValues.city}
-                onChange={handleInputChange}
+                // onChange={handleInputChange}
+                onChange={(event) => {
+                  handleInputChange(event);
+                  console.log(purchaseInfo);
+                }}
               />
             </label>
             <label>
@@ -132,7 +136,7 @@ const CartFinal = () => {
               className="cart-button buy"
               form="address-form"
               type="submit"
-              disabled={!isFormValid}
+              // disabled={!isFormValid}
             >
               Place Order
             </button>

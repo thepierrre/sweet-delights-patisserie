@@ -1,0 +1,16 @@
+.footer {
+  position: relative;
+  bottom: 0;
+  margin-top: auto;
+  padding-top: 1rem;
+  margin-bottom: 1rem;
+  text-align: center;
+  font-size: 0.75rem;
+  font-family: "Ubuntu";
+  color: rgb(63, 63, 63);
+}
+
+.credits-link {
+  text-decoration: none;
+  color: rgb(175, 57, 91);
+}

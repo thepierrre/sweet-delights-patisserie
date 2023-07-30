@@ -13,7 +13,6 @@ const EditProduct = () => {
   const {
     formValues,
     setFormValues,
-    formValidity,
     handleInputChange,
     isFormValid,
     isFormSubmitted,
@@ -137,9 +136,9 @@ const EditProduct = () => {
               onChange={handleInputChange}
             ></Checkbox>
           </label>
-          <div className="form-error">
+          <div className="form-message">
             {isFormSubmitted && !isFormValid && (
-              <p className="form-error-message">
+              <p className="form-message__error">
                 Please fill in all the fields!
               </p>
             )}

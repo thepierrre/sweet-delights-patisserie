@@ -9,45 +9,20 @@ import "./login.css";
 
 const LogIn = () => {
   const { setLoggedIn } = useContext(LoginContext);
-  const { formValues, formValidity, handleInputChange, isFormValid } = useForm({
+  const {
+    formValues,
+    handleInputChange,
+    isFormValid,
+    isFormSubmitted,
+    setIsFormSubmitted,
+  } = useForm({
     email: "",
     password: "",
   });
 
-  useEffect(() => {
-    const fetchUserInformation = async () => {
-      // // const sessionId = getSessionIdFromCookie();
-      // if (sessionId) {
-      //   try {
-      //     const response = await axios.get(
-      //       `http://localhost:5003/api/session/${sessionId}`
-      //     );
-      //     const { name } = response.data.user;
-      //     setLoggedIn(name);
-      //   } catch (err) {
-      //     console.log(err);
-      //   }
-      // }
-    };
-
-    fetchUserInformation();
-  }, []);
-
-  // useEffect(() => {
-  //   const checkLoggedIn = async () => {
-  //     try {
-  //       const response = await axios.get("http://localhost:5003/api/session");
-  //       const { name } = response.data.user;
-  //       setLoggedIn(name);
-  //     } catch (err) {
-  //       console.log(err);
-  //     }
-  //   };
-  //   checkLoggedIn();
-  // }, [setLoggedIn]);
-
   const logInUser = async (event: React.FormEvent) => {
     event.preventDefault();
+    setIsFormSubmitted(true);
 
     if (isFormValid) {
       try {
@@ -60,7 +35,7 @@ const LogIn = () => {
         console.log(`Logged in as ${name}!`);
         setLoggedIn(name);
       } catch (err) {
-        console.log(err);
+        console.log(err.response.data.message);
       }
     }
   };
@@ -89,6 +64,13 @@ const LogIn = () => {
                 onChange={handleInputChange}
               />
             </label>
+            <div className="form-message">
+              {isFormSubmitted && !isFormValid && (
+                <p className="form-message__error">
+                  Please fill in all the fields!
+                </p>
+              )}
+            </div>
             <button type="submit" className="cart-button">
               Log in
             </button>

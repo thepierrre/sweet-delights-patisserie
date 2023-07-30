@@ -5,7 +5,7 @@ const userSchema = new mongoose.Schema({
   email: { type: String, required: true },
   password: { type: String, required: true },
   cart: { type: mongoose.Types.ObjectId, ref: "Cart" },
-  sessionId: { type: String, required: true },
+  sessionId: { type: String, required: false },
 });
 
 module.exports = mongoose.model("User", userSchema);

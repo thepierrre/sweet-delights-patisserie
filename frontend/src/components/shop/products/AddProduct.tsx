@@ -7,7 +7,6 @@ import "./AddProduct.css";
 const AddProduct = () => {
   const {
     formValues,
-    formValidity,
     handleInputChange,
     isFormValid,
     isFormSubmitted,
@@ -112,11 +111,14 @@ const AddProduct = () => {
               onChange={handleInputChange}
             ></Checkbox>
           </label>
-          <div className="form-error">
+          <div className="form-message">
             {isFormSubmitted && !isFormValid && (
-              <p className="form-error-message">
+              <p className="form-message__error">
                 Please fill in all the fields!
               </p>
+            )}
+            {isFormSubmitted && isFormValid && (
+              <p className="form-message__success">Added a new product!</p>
             )}
           </div>
           <button className="cart-button" type="submit">

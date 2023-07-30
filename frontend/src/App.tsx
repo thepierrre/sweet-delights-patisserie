@@ -1,7 +1,7 @@
 import { Outlet } from "react-router-dom";
 import Header from "./components/header/Header";
 import ProductNavigation from "./components/shop/ProductNavigation";
-
+import Footer from "./components/footer/Footer";
 import "./App.css";
 
 const App = () => {
@@ -10,6 +10,7 @@ const App = () => {
       <Header />
       <ProductNavigation />
       <Outlet />
+      <Footer />
     </div>
   );
 };

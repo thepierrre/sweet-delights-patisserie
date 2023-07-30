@@ -1,16 +1,22 @@
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
-
 import LoginContext from "../../context/login-context";
 import "./Header.css";
 import mainLogo from "../../static/main-logo.png";
+import axios from "../../axiosInstance";
 
 const Header = () => {
-  const { loggedIn } = useContext(LoginContext);
+  const { loggedIn, setLoggedIn } = useContext(LoginContext);
+
+  const handleLogOutUser = () => {
+    axios.get("login/logout");
+    setLoggedIn("");
+  };
+
   return (
     <header className="header">
       <div className="login-info">
-        <p>Logged in as {loggedIn}</p>
+        {loggedIn && <p>Logged in as {loggedIn}</p>}
       </div>
       <div className="upper-header">
         <div className="main-logo">
@@ -34,13 +40,23 @@ const Header = () => {
           <NavLink to="/about" className="main-nav__element">
             <li>About</li>
           </NavLink>
-          <NavLink to="/login" className="main-nav__element">
-            <li>Log In</li>
-          </NavLink>
+          {!loggedIn && (
+            <NavLink to="/login" className="main-nav__element">
+              <li>Log In</li>
+            </NavLink>
+          )}
+          {loggedIn && (
+            <li className="main-nav__element" onClick={handleLogOutUser}>
+              Log Out
+            </li>
+          )}
           <NavLink to="/cart-review" className="main-nav__element">
             <li>Cart</li>
           </NavLink>
-          <NavLink to="/add-product" className="main-nav__element">
+          <NavLink
+            to="/add-product"
+            className="main-nav__element add-product-button"
+          >
             <li>Add Product</li>
           </NavLink>
         </ul>

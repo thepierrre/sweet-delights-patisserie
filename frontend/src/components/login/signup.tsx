@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios from "../../axiosInstance";
 import { Link } from "react-router-dom";
 import useForm from "../../hooks/form-hook";
 import Card from "../shared/Card";
@@ -7,7 +7,13 @@ import "./signup.css";
 import React from "react";
 
 const SignUp = () => {
-  const { formValues, formValidity, handleInputChange, isFormValid } = useForm({
+  const {
+    formValues,
+    handleInputChange,
+    isFormValid,
+    isFormSubmitted,
+    setIsFormSubmitted,
+  } = useForm({
     name: "",
     email: "",
     password: "",
@@ -15,10 +21,11 @@ const SignUp = () => {
 
   const registerUser = async (event: React.FormEvent) => {
     event.preventDefault();
+    setIsFormSubmitted(true);
 
     if (isFormValid) {
       try {
-        await axios.post("http://localhost:5003/api/users", {
+        await axios.post("users", {
           name: formValues.name,
           email: formValues.email,
           password: formValues.password,
@@ -63,6 +70,16 @@ const SignUp = () => {
                 onChange={handleInputChange}
               />
             </label>
+            <div className="form-message">
+              {isFormSubmitted && !isFormValid && (
+                <p className="form-message__error">
+                  Please fill in all the fields!
+                </p>
+              )}
+              {isFormSubmitted && isFormValid && (
+                <p className="form-message__success">Registered a new user!</p>
+              )}
+            </div>
             <button type="submit" className="cart-button">
               Sign up
             </button>

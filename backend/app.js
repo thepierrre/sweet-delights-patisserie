@@ -20,12 +20,12 @@ app.use(cookieParser());
 app.use(
   session({
     genid: (req) => {
-      return uuidv4(); // Generate a unique session ID using uuid
+      return uuidv4();
     },
-    secret: "your-secret-key",
+    secret: "my-supersecret-key",
     resave: false,
     saveUninitialized: true,
-    cookie: { maxAge: 604800000, httpOnly: true }, // One week (in milliseconds)
+    cookie: { maxAge: 604800000, httpOnly: true },
   })
 );
 
@@ -48,7 +48,11 @@ app.use("/api/categories", categoriesRoutes);
 app.use("/api/products", productsRoutes);
 app.use("/api/users", usersRoutes);
 app.use("/api/login", loginRoutes);
-app.use("/api/session/:sessionId", sessionRoutes);
+app.use("/api/session/", sessionRoutes);
+// app.use("/api/session/:sessionId", sessionRoutes);
+app.use((err, req, res, next) => {
+  res.status(err.code).json({ message: err.message });
+});
 
 mongoose
   .connect(

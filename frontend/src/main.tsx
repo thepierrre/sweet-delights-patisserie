@@ -13,7 +13,7 @@ import AddProduct from "./components/shop/products/AddProduct.tsx";
 import EditProduct from "./components/shop/products/EditProduct.tsx";
 import Login from "./components/login/login.tsx";
 import Signup from "./components/login/signup.tsx";
-import About from "./components/about/about.tsx";
+import About from "./components/about/About.tsx";
 import LoginContextProvider from "./LoginContextProvider.tsx";
 import ProductsContextProvider from "./ProductsContextProvider.jsx";
 import "./index.css";
