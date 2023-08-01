@@ -16,7 +16,11 @@ const Header = () => {
   return (
     <header className="header">
       <div className="login-info">
-        {loggedIn && <p>Logged in as {loggedIn}</p>}
+        {loggedIn && (
+          <p>
+            Logged in as <span>{loggedIn}</span>
+          </p>
+        )}
       </div>
       <div className="upper-header">
         <div className="main-logo">

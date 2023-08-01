@@ -22,23 +22,35 @@ const ProductsContextProvider: React.FC<Props> = (props) => {
   >([]);
   const [cart, setCart] = useState<Cart>({ items: [] });
 
-  const addToCart = (id: string, name: string): void => {
+  const addToCart = (id: string, name: string, amount: number): void => {
     const existingItemIndex = cart.items.findIndex((item) => item.id === id);
 
     if (existingItemIndex !== -1) {
       setCart((prevCart: Cart) => {
         const updatedCartItems = [...prevCart.items];
-        updatedCartItems[existingItemIndex].amount += 1;
-        return { ...prevCart, items: updatedCartItems };
+        updatedCartItems[existingItemIndex].amount + amount;
+        const updatedCart = { ...prevCart, items: updatedCartItems };
+        saveCartToLocalStorage(updatedCart); // Save updated cart to localStorage
+        return updatedCart;
       });
     } else {
-      setCart((prevCart: Cart) => ({
-        ...prevCart,
-        items: [...prevCart.items, { id, name, amount: 1 }],
-      }));
+      setCart((prevCart: Cart) => {
+        const updatedCart = {
+          ...prevCart,
+          items: [...prevCart.items, { id, name, amount: 1 }],
+        };
+        saveCartToLocalStorage(updatedCart); // Save updated cart to localStorage
+        return updatedCart;
+      });
     }
 
     console.log(cart);
+
+    // Nested function to save the cart to localStorage
+    function saveCartToLocalStorage(cart: Cart): void {
+      const cartJSON = JSON.stringify(cart);
+      localStorage.setItem("cart", cartJSON);
+    }
   };
 
   const incrementCartElement = (id: string): void => {

@@ -15,7 +15,6 @@ const LoginContextProvider: React.FC<Props> = (props) => {
     const getUser = async () => {
       const response = await axios.get("login/me");
       const { name } = response.data.user;
-      console.log(`Logged in as ${name}!`);
       setLoggedIn(name);
     };
     getUser();

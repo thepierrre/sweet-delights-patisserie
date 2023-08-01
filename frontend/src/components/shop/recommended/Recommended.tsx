@@ -18,7 +18,6 @@ const Recommended = () => {
         const res = await axios.get("products/recommended");
         const products = res.data.products;
         setRecommendedProducts(products);
-        console.log(recommendedProducts);
       } catch (err) {
         console.log(err);
       }
@@ -27,7 +26,7 @@ const Recommended = () => {
   }, []);
 
   const recommendedProductItems = recommendedProducts.map((product) => (
-    <SwiperSlide>
+    <SwiperSlide key={product["_id"]}>
       <RecommendedItem
         id={product["_id"]}
         key={product["_id"]}

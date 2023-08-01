@@ -59,7 +59,7 @@ const About = () => {
               <br />
               80331 München
               <br />
-              +49 89 123456987654
+              +49 89 123456
               <br />
               info@sweetdelights.de
             </i>

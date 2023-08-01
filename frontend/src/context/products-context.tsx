@@ -47,7 +47,7 @@ interface ProductsContextType {
   setProducts: Dispatch<SetStateAction<Product[]>>;
   cart: Cart;
   setCart: Dispatch<SetStateAction<Cart>>;
-  addToCart: (id: string, name: string) => void;
+  addToCart: (id: string, name: string, amount: number) => void;
   incrementCartElement: (id: string) => void;
 }
 

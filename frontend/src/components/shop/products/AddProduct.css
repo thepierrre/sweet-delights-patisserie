@@ -58,13 +58,16 @@ textarea {
 }
 
 .form-message {
-  height: 1rem;
+  display: flex;
+  flex-direction: column;
+  /* height: rem; */
   display: flex;
   align-items: center;
 }
 
 .form-message__error {
   font-family: "Ubuntu";
+  margin: 0.2rem;
   font-size: 1.2rem;
   color: rgb(222, 0, 0);
 }

@@ -1,15 +1,14 @@
-import { useContext } from "react";
+import { useContext, useEffect } from "react";
 import { Link } from "react-router-dom";
-
 import ProductsContext from "../../context/products-context";
-
-import Card from "../shared/Card";
+import LoginContext from "../../context/login-context";
 import CartElement from "./CartElement";
 
 import "./CartReview.css";
 
 const CartReview = () => {
-  const { cart } = useContext(ProductsContext);
+  const { cart, setCart } = useContext(ProductsContext);
+  const { loggedIn } = useContext(LoginContext);
 
   const cartItems = cart.items.map((item) => (
     <CartElement
@@ -20,6 +19,20 @@ const CartReview = () => {
     />
   ));
 
+  const getCartFromLocalStorage = () => {
+    const cartJSON = localStorage.getItem("cart");
+    if (cartJSON) {
+      return JSON.parse(cartJSON);
+    } else {
+      return { items: [] }; // Return an empty cart if it's not found in localStorage
+    }
+  };
+
+  useEffect(() => {
+    const cartFromLocalStorage = getCartFromLocalStorage();
+    setCart(cartFromLocalStorage);
+  }, []);
+
   return (
     <div className="cart">
       {cart.items.length !== 0 && (
@@ -29,10 +42,17 @@ const CartReview = () => {
           <div className="total">
             <p>Total: €99.67</p>
           </div>
-          <div>
-            <Link to="/cart-final">
-              <button className="cart-button next">Shipping & Payment</button>
-            </Link>
+          <div className="cart-review__buttons">
+            {loggedIn && (
+              <Link to="/cart-final">
+                <button className="cart-button next">Shipping & Payment</button>
+              </Link>
+            )}
+            {!loggedIn && (
+              <Link to="/login">
+                <button className="cart-button next">Log In To Proceed</button>
+              </Link>
+            )}
           </div>
         </>
       )}

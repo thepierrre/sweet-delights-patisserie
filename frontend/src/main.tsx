@@ -14,6 +14,7 @@ import EditProduct from "./components/shop/products/EditProduct.tsx";
 import Login from "./components/login/login.tsx";
 import Signup from "./components/login/signup.tsx";
 import About from "./components/about/About.tsx";
+import Credits from "./components/authorship/Credits.tsx";
 import LoginContextProvider from "./LoginContextProvider.tsx";
 import ProductsContextProvider from "./ProductsContextProvider.jsx";
 import "./index.css";
@@ -36,6 +37,7 @@ const router = createBrowserRouter([
       { path: "/edit-product/:productId", element: <EditProduct /> },
       { path: "/login", element: <Login /> },
       { path: "/signup", element: <Signup /> },
+      { path: "/credits", element: <Credits /> },
     ],
   },
 ]);

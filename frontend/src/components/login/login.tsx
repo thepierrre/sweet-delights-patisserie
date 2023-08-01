@@ -1,5 +1,6 @@
-import { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useContext, useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+
 import useForm from "../../hooks/form-hook";
 import LoginContext from "../../context/login-context";
 import Card from "../shared/Card";
@@ -8,6 +9,8 @@ import axios from "../../axiosInstance";
 import "./login.css";
 
 const LogIn = () => {
+  const navigate = useNavigate();
+  const [invalidCredentials, setInvalidCredentials] = useState(undefined);
   const { setLoggedIn } = useContext(LoginContext);
   const {
     formValues,
@@ -30,12 +33,11 @@ const LogIn = () => {
           email: formValues.email,
           password: formValues.password,
         });
-
         const { name } = response.data.user;
-        console.log(`Logged in as ${name}!`);
         setLoggedIn(name);
-      } catch (err) {
-        console.log(err.response.data.message);
+        navigate("/home");
+      } catch (err: any) {
+        setInvalidCredentials(err.response.data.message);
       }
     }
   };
@@ -69,6 +71,9 @@ const LogIn = () => {
                 <p className="form-message__error">
                   Please fill in all the fields!
                 </p>
+              )}
+              {isFormSubmitted && invalidCredentials && (
+                <p className="form-message__error">{invalidCredentials}</p>
               )}
             </div>
             <button type="submit" className="cart-button">

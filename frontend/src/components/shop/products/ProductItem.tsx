@@ -1,5 +1,5 @@
 import axios from "../../../axiosInstance";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -9,20 +9,27 @@ import "./ProductItem.css";
 import ProductsContext from "../../../context/products-context";
 
 const ProductItem = (props: any) => {
+  const [amountToAdd, setAmountToAdd] = useState(1);
+
   const { id, name, description, photoUrl, price } = props;
   const { addToCart } = useContext(ProductsContext);
 
-  // const addToCart = () => {
-  //   const newItem: CartItem = { id, name };
-  //   setCart((prevCart: Cart) => ({
-  //     ...prevCart,
-  //     items: [...prevCart.items, newItem],
-  //   }));
-  //   console.log(cart);
-  // };
+  const increaseAmountToAdd = () => {
+    if (amountToAdd < 99) {
+      setAmountToAdd((prevAmount) => prevAmount + 1);
+    }
+    return;
+  };
 
-  const onAddToCart = (id: string, name: string) => {
-    addToCart(id, name);
+  const decreaseAmountToAdd = () => {
+    if (amountToAdd > 1) {
+      setAmountToAdd((prevAmount) => prevAmount - 1);
+    }
+    return;
+  };
+
+  const onAddToCart = (id: string, name: string, amount: number) => {
+    addToCart(id, name, amount);
   };
 
   const handleDeleteProduct = async () => {
@@ -44,10 +51,17 @@ const ProductItem = (props: any) => {
         <div className="product-item__text-body">
           <div className="product-item__description">{description}</div>
           <div className="product-item__actions">
-            <p className="increase">−</p>
-            <div className="actions_padded">1</div>
-            <p className="increase">+</p>
-            <div className="actions_add" onClick={() => onAddToCart(id, name)}>
+            <p className="increase" onClick={decreaseAmountToAdd}>
+              −
+            </p>
+            <div className="actions_padded">{amountToAdd}</div>
+            <p className="increase" onClick={increaseAmountToAdd}>
+              +
+            </p>
+            <div
+              className="actions_add"
+              onClick={() => onAddToCart(id, name, amountToAdd)}
+            >
               Add to Cart
             </div>
             <Link to={`/edit-product/${id}`} className="actions_padded">
