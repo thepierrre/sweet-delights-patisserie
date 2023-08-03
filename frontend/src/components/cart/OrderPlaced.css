@@ -25,6 +25,14 @@
   margin-bottom: 2rem;
 }
 
+.order-placed__summary .address-data {
+  margin-bottom: 2rem;
+}
+
+.order-placed__summary .payment-info {
+  margin-bottom: 0;
+}
+
 .order-placed__summary .address-data > h3,
 .order-placed__summary .payment-info > h3 {
   font-size: 1.4rem;

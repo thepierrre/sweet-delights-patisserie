@@ -67,13 +67,14 @@ textarea {
 
 .form-message__error {
   font-family: "Ubuntu";
-  margin: 0.2rem;
-  font-size: 1.2rem;
+  margin: 0;
+  font-size: 1rem;
   color: rgb(222, 0, 0);
 }
 
 .form-message__success {
   font-family: "Ubuntu";
+  margin: 0;
   font-size: 1.2rem;
   color: rgb(0, 111, 0);
 }

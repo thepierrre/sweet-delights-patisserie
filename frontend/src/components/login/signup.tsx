@@ -1,27 +1,29 @@
 import axios from "../../axiosInstance";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
-import useForm from "../../hooks/form-hook";
 import Card from "../shared/Card";
 
 import "./signup.css";
 import React from "react";
 
 const SignUp = () => {
-  const {
-    formValues,
-    handleInputChange,
-    isFormValid,
-    isFormSubmitted,
-    setIsFormSubmitted,
-  } = useForm({
-    name: "",
-    email: "",
-    password: "",
-  });
+  const [showErrorMessage, setShowErrorMessage] = useState(false);
 
-  const registerUser = async (event: React.FormEvent) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
+
+  const onSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
     setIsFormSubmitted(true);
+
+    if (formValues.name === "admin") {
+      setShowErrorMessage(true);
+      return; // Stop the form submission
+    }
 
     if (isFormValid) {
       try {
@@ -42,44 +44,43 @@ const SignUp = () => {
       <div className="cart">
         <h2>Sign up</h2>
         <div>
-          <form className="address-form" onSubmit={registerUser}>
+          <form className="address-form" onSubmit={handleSubmit(onSubmit)}>
             <label>
               Name:
               <input
+                {...register("name", {
+                  required: "This is required.",
+                })}
                 type="text"
-                name="name"
-                value={formValues.name}
-                onChange={handleInputChange}
               />
             </label>
+            <p className="form-message__error">
+              {errors.name?.message?.toString()}
+            </p>
             <label>
               E-Mail:
               <input
+                {...register("email", {
+                  required: "This is required.",
+                })}
                 type="text"
-                name="email"
-                value={formValues.email}
-                onChange={handleInputChange}
               />
             </label>
+            <p className="form-message__error">
+              {errors.email?.message?.toString()}
+            </p>
             <label>
               Password:
               <input
-                type="text"
-                name="password"
-                value={formValues.password}
-                onChange={handleInputChange}
+                {...register("password", {
+                  required: "This is required.",
+                })}
+                type="password"
               />
             </label>
-            <div className="form-message">
-              {isFormSubmitted && !isFormValid && (
-                <p className="form-message__error">
-                  Please fill in all the fields!
-                </p>
-              )}
-              {isFormSubmitted && isFormValid && (
-                <p className="form-message__success">Registered a new user!</p>
-              )}
-            </div>
+            <p className="form-message__error">
+              {errors.password?.message?.toString()}
+            </p>
             <button type="submit" className="cart-button">
               Sign up
             </button>

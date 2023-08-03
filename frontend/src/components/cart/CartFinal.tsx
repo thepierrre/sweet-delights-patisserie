@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Link } from "react-router-dom";
-import useForm from "../../hooks/form-hook";
+import { useForm } from "react-hook-form";
 import Card from "../shared/Card";
 import ProductsContext from "../../context/products-context";
 
@@ -10,35 +10,29 @@ const CartFinal = () => {
   const { purchaseInfo, setPurchaseInfo } = useContext(ProductsContext);
 
   const {
-    formValues,
-    handleInputChange,
-    isFormValid,
-    isFormSubmitted,
-    setIsFormSubmitted,
-  } = useForm({
-    firstName: "",
-    lastName: "",
-    // totalCost: undefined,
-    street: "",
-    city: "",
-    postalCode: "",
-    paymentOption: "",
-  });
+    register,
+    handleSubmit,
+    formState: { isValid },
+  } = useForm();
 
-  const placeOrderHandler = (event: React.FormEvent) => {
-    event.preventDefault();
-    setIsFormSubmitted(true);
-
+  const onSubmit = (formData: any) => {
     setPurchaseInfo({
-      firstName: formValues.firstName,
-      lastName: formValues.lastName,
-      totalCost: 30,
-      street: formValues.street,
-      city: formValues.city,
-      postalCode: formValues.postalCode,
-      paymentOption: formValues.paymentOption,
+      firstName: formData.firstName,
+      lastName: formData.lastName,
+      street: formData.street,
+      city: formData.city,
+      postalCode: formData.postalCode,
+      paymentOption: formData.paymentOption,
     });
-    console.log(purchaseInfo);
+  };
+
+  const handleInputChange = (event: any) => {
+    const fieldName = event.target.name;
+    const fieldValue = event.target.value;
+    setPurchaseInfo((prevPurchaseInfo) => ({
+      ...prevPurchaseInfo,
+      [fieldName]: fieldValue,
+    }));
   };
 
   return (
@@ -46,59 +40,61 @@ const CartFinal = () => {
       <div className="cart">
         <h2>Shipping & Payment</h2>
         <div>
-          <h3>Adress</h3>
           <form
             className="address-form"
             id="address-form"
-            onSubmit={placeOrderHandler}
+            onSubmit={handleSubmit(onSubmit)}
           >
+            <h3>Adress</h3>
             <label>
               First Name:
               <input
+                {...register("firstName", {
+                  required: "This is required.",
+                })}
                 type="text"
-                name="firstName"
-                value={formValues.firstName}
-                onChange={handleInputChange}
+                onInput={handleInputChange}
               />
             </label>
             <label>
               Last Name:
               <input
+                {...register("lastName", {
+                  required: "This is required.",
+                })}
                 type="text"
-                name="lastName"
-                value={formValues.lastName}
-                onChange={handleInputChange}
+                onInput={handleInputChange}
               />
             </label>
             <label>
               Street & Number:
               <input
+                {...register("street", {
+                  required: "This is required.",
+                })}
                 type="text"
-                name="street"
-                value={formValues.street}
-                onChange={handleInputChange}
+                onInput={handleInputChange}
               />
             </label>
             <label>
               City:
               <input
+                {...register("city", {
+                  required: "This is required.",
+                })}
                 type="text"
                 name="city"
-                value={formValues.city}
-                // onChange={handleInputChange}
-                onChange={(event) => {
-                  handleInputChange(event);
-                  console.log(purchaseInfo);
-                }}
+                onInput={handleInputChange}
               />
             </label>
             <label>
               Postal Code:
               <input
+                {...register("postalCode", {
+                  required: "This is required.",
+                })}
                 type="text"
-                name="postalCode"
-                value={formValues.postalCode}
-                onChange={handleInputChange}
+                onInput={handleInputChange}
               />
             </label>
             <h3 className="payment">Payment</h3>
@@ -106,10 +102,12 @@ const CartFinal = () => {
               Choose Option:
               <br />
               <select
-                name="paymentOption"
+                {...register("paymentOption", {
+                  required: "This is required.",
+                })}
                 className="payment-menu"
-                value={formValues.paymentOption}
-                onChange={handleInputChange}
+                defaultValue="cash"
+                onInput={handleInputChange}
               >
                 <option value="cash">Cash On Delivery</option>
                 <option value="transfer">Bank Transfer</option>
@@ -121,13 +119,6 @@ const CartFinal = () => {
           <p>Total Price: €95.94</p>
         </div>
         <div className="cart-buttons">
-          <div className="form-error">
-            {isFormSubmitted && !isFormValid && (
-              <p className="form-error-message">
-                Please fill in all the fields!
-              </p>
-            )}
-          </div>
           <Link to="/cart-review">
             <button className="cart-button go-back">Back to Cart</button>
           </Link>
@@ -136,7 +127,7 @@ const CartFinal = () => {
               className="cart-button buy"
               form="address-form"
               type="submit"
-              // disabled={!isFormValid}
+              disabled={!isValid}
             >
               Place Order
             </button>

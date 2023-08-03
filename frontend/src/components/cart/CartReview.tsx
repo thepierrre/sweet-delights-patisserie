@@ -10,14 +10,26 @@ const CartReview = () => {
   const { cart, setCart } = useContext(ProductsContext);
   const { loggedIn } = useContext(LoginContext);
 
+  useEffect(() => {
+    const cartFromLocalStorage = getCartFromLocalStorage();
+    setCart(cartFromLocalStorage);
+    console.log(cart);
+  }, []);
+
   const cartItems = cart.items.map((item) => (
     <CartElement
       key={item.id}
       id={item.id}
       name={item.name}
       amount={item.amount}
+      price={item.price}
     />
   ));
+
+  const totalPurchasePrice = cart.items.reduce(
+    (total, item) => total + item.price,
+    0
+  );
 
   const getCartFromLocalStorage = () => {
     const cartJSON = localStorage.getItem("cart");
@@ -28,11 +40,6 @@ const CartReview = () => {
     }
   };
 
-  useEffect(() => {
-    const cartFromLocalStorage = getCartFromLocalStorage();
-    setCart(cartFromLocalStorage);
-  }, []);
-
   return (
     <div className="cart">
       {cart.items.length !== 0 && (
@@ -40,7 +47,7 @@ const CartReview = () => {
           <h2>Your Cart</h2>
           <ul className="cart-products-list">{cartItems}</ul>
           <div className="total">
-            <p>Total: €99.67</p>
+            <p>Total: €{totalPurchasePrice}</p>
           </div>
           <div className="cart-review__buttons">
             {loggedIn && (
@@ -50,7 +57,7 @@ const CartReview = () => {
             )}
             {!loggedIn && (
               <Link to="/login">
-                <button className="cart-button next">Log In To Proceed</button>
+                <button className="cart-button next">Log In</button>
               </Link>
             )}
           </div>

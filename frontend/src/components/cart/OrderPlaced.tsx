@@ -30,18 +30,19 @@ const OrderPlaced = () => {
           </div>
           <div className="order-placed__summary payment-info">
             {purchaseInfo.paymentOption === "cash" && (
-              <p>
-                The payment will be collected in cash when the order is
-                delivered to your address.
-              </p>
+              <h3>
+                The payment will be collected in cash
+                <br /> when the order is delivered.
+              </h3>
             )}
             {purchaseInfo.paymentOption === "transfer" && (
               <>
                 <h3>
-                  Please transfer the amount
-                  <br /> of €{purchaseInfo.totalCost} to the following account:
+                  Please transfer the purchase amount
+                  <br />
+                  to the following account:
                 </h3>
-                <p>DE900 300 000 120 123</p>
+                <p>DE900 123 000 987 123</p>
               </>
             )}
           </div>

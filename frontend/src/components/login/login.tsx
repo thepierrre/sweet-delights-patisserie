@@ -1,7 +1,6 @@
 import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
-import useForm from "../../hooks/form-hook";
+import { useForm } from "react-hook-form";
 import LoginContext from "../../context/login-context";
 import Card from "../shared/Card";
 import axios from "../../axiosInstance";
@@ -12,33 +11,24 @@ const LogIn = () => {
   const navigate = useNavigate();
   const [invalidCredentials, setInvalidCredentials] = useState(undefined);
   const { setLoggedIn } = useContext(LoginContext);
+
   const {
-    formValues,
-    handleInputChange,
-    isFormValid,
-    isFormSubmitted,
-    setIsFormSubmitted,
-  } = useForm({
-    email: "",
-    password: "",
-  });
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const logInUser = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setIsFormSubmitted(true);
-
-    if (isFormValid) {
-      try {
-        const response = await axios.post("login", {
-          email: formValues.email,
-          password: formValues.password,
-        });
-        const { name } = response.data.user;
-        setLoggedIn(name);
-        navigate("/home");
-      } catch (err: any) {
-        setInvalidCredentials(err.response.data.message);
-      }
+  const onSubmit = async (formData: any) => {
+    try {
+      const response = await axios.post("login", {
+        email: formData.email,
+        password: formData.password,
+      });
+      const { name } = response.data.user;
+      setLoggedIn(name);
+      navigate("/home");
+    } catch (err: any) {
+      setInvalidCredentials(err.response.data.message);
     }
   };
 
@@ -47,35 +37,32 @@ const LogIn = () => {
       <div className="cart">
         <h2>Log in</h2>
         <div>
-          <form className="address-form" onSubmit={logInUser}>
+          <form className="address-form" onSubmit={handleSubmit(onSubmit)}>
             <label>
               E-Mail:
               <input
+                {...register("email", {
+                  required: "This is required.",
+                })}
                 type="text"
                 name="email"
-                value={formValues.email}
-                onChange={handleInputChange}
               />
             </label>
+            <p className="form-message__error">
+              {errors.email?.message?.toString()}
+            </p>
             <label>
               Password:
               <input
-                type="text"
-                name="password"
-                value={formValues.password}
-                onChange={handleInputChange}
+                {...register("password", {
+                  required: "This is required.",
+                })}
+                type="password"
               />
             </label>
-            <div className="form-message">
-              {isFormSubmitted && !isFormValid && (
-                <p className="form-message__error">
-                  Please fill in all the fields!
-                </p>
-              )}
-              {isFormSubmitted && invalidCredentials && (
-                <p className="form-message__error">{invalidCredentials}</p>
-              )}
-            </div>
+            <p className="form-message__error">
+              {errors.password?.message?.toString()}
+            </p>
             <button type="submit" className="cart-button">
               Log in
             </button>

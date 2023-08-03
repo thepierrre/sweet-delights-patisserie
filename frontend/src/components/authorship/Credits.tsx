@@ -1,15 +1,23 @@
+import { Link } from "react-router-dom";
+import images from "./images-urls.ts";
 import "./Credits.css";
 
+type Image = {
+  name: string;
+  url: string;
+};
+
 const Credits = () => {
+  const imagesSources = images.map((image: Image, index: number) => (
+    <Link to={image.url} className="source-link">
+      <p key={index}>{image.name}</p>
+    </Link>
+  ));
+
   return (
     <div className="cart credits">
-      <h3>Picture sources</h3>
-      <div className="credits-sources">
-        <p>Source 1</p>
-        <p>Source 2</p>
-        <p>Source 3</p>
-        <p>Source 4</p>
-      </div>
+      <h3>Sources of the Pictures</h3>
+      <div className="credits-sources">{imagesSources}</div>
     </div>
   );
 };

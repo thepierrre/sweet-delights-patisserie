@@ -1,5 +1,5 @@
-import history from "../../static/others/history.jpg";
-import mission from "../../static/others/mission.avif";
+import history from "../../static/others/history.avif";
+import mission from "../../static/others/mission.jpg";
 import "./About.css";
 
 const About = () => {

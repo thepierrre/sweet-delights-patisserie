@@ -4,8 +4,6 @@ const useForm = (initialValues: any) => {
   // Set default values for category and paymentOption if not provided
   const defaultValues = {
     ...initialValues,
-    category: initialValues.category || "Cupcakes",
-    paymentOption: initialValues.paymentOption || "cash",
   };
 
   const [formValues, setFormValues] = useState(defaultValues);
@@ -43,7 +41,6 @@ const useForm = (initialValues: any) => {
       [name]: type === "checkbox" ? checked : value,
     }));
     setFormValidity((prevValidity) => ({ ...prevValidity, [name]: isValid }));
-    // console.log(formValues);
   };
 
   const isFormValid = Object.values(formValidity).every((valid) => valid);

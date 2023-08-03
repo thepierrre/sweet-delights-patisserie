@@ -1,5 +1,6 @@
 import axios from "../../../axiosInstance";
 import { useContext, useState } from "react";
+import LoginContext from "../../../context/login-context";
 import { Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
@@ -10,26 +11,33 @@ import ProductsContext from "../../../context/products-context";
 
 const ProductItem = (props: any) => {
   const [amountToAdd, setAmountToAdd] = useState(1);
-
-  const { id, name, description, photoUrl, price } = props;
   const { addToCart } = useContext(ProductsContext);
+  const { loggedIn } = useContext(LoginContext);
+  const { id, name, description, photoUrl, price } = props;
 
   const increaseAmountToAdd = () => {
     if (amountToAdd < 99) {
-      setAmountToAdd((prevAmount) => prevAmount + 1);
+      // setAmountToAdd((prevAmount) => prevAmount + 1);
+      setAmountToAdd(amountToAdd + 1);
     }
     return;
   };
 
   const decreaseAmountToAdd = () => {
     if (amountToAdd > 1) {
-      setAmountToAdd((prevAmount) => prevAmount - 1);
+      // setAmountToAdd((prevAmount) => prevAmount - 1);
+      setAmountToAdd(amountToAdd - 1);
     }
     return;
   };
 
-  const onAddToCart = (id: string, name: string, amount: number) => {
-    addToCart(id, name, amount);
+  const onAddToCart = (
+    id: string,
+    name: string,
+    price: number,
+    amount: number
+  ) => {
+    addToCart(id, name, price, amount);
   };
 
   const handleDeleteProduct = async () => {
@@ -60,16 +68,20 @@ const ProductItem = (props: any) => {
             </p>
             <div
               className="actions_add"
-              onClick={() => onAddToCart(id, name, amountToAdd)}
+              onClick={() => onAddToCart(id, name, price, amountToAdd)}
             >
               Add to Cart
             </div>
-            <Link to={`/edit-product/${id}`} className="actions_padded">
-              <EditIcon fontSize="small" />
-            </Link>
-            <div className="actions_padded" onClick={handleDeleteProduct}>
-              <DeleteIcon fontSize="small" />
-            </div>
+            {loggedIn === "admin" && (
+              <>
+                <Link to={`/edit-product/${id}`} className="actions_padded">
+                  <EditIcon fontSize="small" />
+                </Link>
+                <div className="actions_padded" onClick={handleDeleteProduct}>
+                  <DeleteIcon fontSize="small" />
+                </div>
+              </>
+            )}
           </div>
         </div>
       </div>

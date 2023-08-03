@@ -24,8 +24,14 @@
   margin-top: 2rem;
 }
 
-@media only screen and (max-width: 600px) {
+@media only screen and (max-width: 700px) {
   .swiper {
     width: 95%;
+  }
+}
+
+@media only screen and (min-width: 701px) {
+  .swiper {
+    width: 70%;
   }
 }

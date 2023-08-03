@@ -22,6 +22,7 @@ export interface CartItem {
   id: string;
   name: string;
   amount: number;
+  price: number;
 }
 
 export interface Cart {
@@ -32,7 +33,6 @@ export interface PurchaseInfo {
   paymentOption: string;
   firstName: string;
   lastName: string;
-  totalCost: number;
   street: string;
   city: string;
   postalCode: string;
@@ -47,8 +47,10 @@ interface ProductsContextType {
   setProducts: Dispatch<SetStateAction<Product[]>>;
   cart: Cart;
   setCart: Dispatch<SetStateAction<Cart>>;
-  addToCart: (id: string, name: string, amount: number) => void;
+  addToCart: (id: string, name: string, price: number, amount: number) => void;
+  deleteCartFromLocalStorage: () => void;
   incrementCartElement: (id: string) => void;
+  decreaseCartElement: (id: string) => void;
 }
 
 const ProductsContext = createContext<ProductsContextType>(

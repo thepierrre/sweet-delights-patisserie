@@ -7,21 +7,26 @@ import ProductsContext from "../../context/products-context";
 import "./CartElement.css";
 
 const CartElement: React.FC<CartItem> = (props: any) => {
-  const { cart, incrementCartElement } = useContext(ProductsContext);
+  const { cart, incrementCartElement, decreaseCartElement } =
+    useContext(ProductsContext);
 
-  const { id, name, amount } = props;
+  const { id, name, amount, price } = props;
+
+  const totalItemPrice = price * amount;
 
   return (
     <li className="cart-product-item">
       <div className="cart-item__amount">
-        <p className="increase">−</p>
+        <p className="increase" onClick={() => decreaseCartElement(id)}>
+          −
+        </p>
         <p className="number">{amount}</p>
         <p className="increase" onClick={() => incrementCartElement(id)}>
           +
         </p>
       </div>
       <p className="cart-product-item__name">{name}</p>
-      <p className="cart-product-item__price">€20.99</p>
+      <p className="cart-product-item__price">€{totalItemPrice}</p>
     </li>
   );
 };

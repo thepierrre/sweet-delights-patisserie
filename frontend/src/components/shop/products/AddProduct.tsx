@@ -1,43 +1,54 @@
 import axios from "../../../axiosInstance";
-import useForm from "../../../hooks/form-hook";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { useForm } from "react-hook-form";
+import LoginContext from "../../../context/login-context";
 import Checkbox from "@mui/material/Checkbox";
 import Card from "../../shared/Card";
 import "./AddProduct.css";
 
 const AddProduct = () => {
-  const {
-    formValues,
-    handleInputChange,
-    isFormValid,
-    isFormSubmitted,
-    setIsFormSubmitted,
-  } = useForm({
-    name: "",
-    price: undefined,
-    description: "",
-    category: "",
-    photoUrl: "",
-    isRecommended: false,
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const { loggedIn } = useContext(LoginContext);
+  const navigate = useNavigate();
+
+  const isAdmin = loggedIn === "admin";
+
+  useEffect(() => {
+    if (!isAdmin) {
+      // Redirect to another page (e.g., login page) if the user is not an admin
+      navigate("/login");
+    }
   });
 
-  const addProductHandler = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setIsFormSubmitted(true);
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
 
-    if (isFormValid) {
-      try {
-        const product = await axios.post("products", {
-          name: formValues.name,
-          price: formValues.price,
-          description: formValues.description,
-          category: formValues.category,
-          photoUrl: formValues.photoUrl,
-          isRecommended: formValues.isRecommended,
-        });
-        console.log(product);
-      } catch (err) {
-        console.log(err);
-      }
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked } = event.target;
+    setValue("isRecommended", checked);
+  };
+
+  const onSubmit = async (formData: any) => {
+    try {
+      const product = await axios.post("products", {
+        name: formData.name,
+        price: formData.price,
+        description: formData.description,
+        category: formData.category,
+        photoUrl: formData.photoUrl,
+        isRecommended: formData.isRecommended,
+      });
+      setShowSuccessMessage(true); // Show the success message
+      setTimeout(() => {
+        setShowSuccessMessage(false); // Hide the success message after 3 seconds (you can adjust the duration as needed)
+      }, 3000);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -45,37 +56,42 @@ const AddProduct = () => {
     <Card>
       <div className="cart">
         <h2>Add a New Product</h2>
-        <form className="product-form" onSubmit={addProductHandler}>
+        <form className="product-form" onSubmit={handleSubmit(onSubmit)}>
           <label>
             Name:
             <input
+              {...register("name", {
+                required: "This is required.",
+              })}
               type="text"
-              name="name"
-              maxLength={30}
-              value={formValues.name}
-              onChange={handleInputChange}
               className="form-input"
             />
           </label>
+          <p className="form-message__error">
+            {errors.name?.message?.toString()}
+          </p>
           <label>
             Price:
             <input
+              {...register("price", {
+                required: "This is required.",
+              })}
               type="number"
               className="form-input"
-              step={0.01}
-              name="price"
-              value={formValues.price}
-              onChange={handleInputChange}
             />
           </label>
+          <p className="form-message__error">
+            {errors.price?.message?.toString()}
+          </p>
           <label>
             Category:
             <br />
             <select
-              name="category"
+              {...register("category", {
+                required: "This is required.",
+              })}
               className="category"
-              value={formValues.category}
-              onChange={handleInputChange}
+              defaultValue="Cupcakes"
             >
               <option value="Cupcakes">Cupcakes</option>
               <option value="Cakes">Cakes</option>
@@ -83,44 +99,44 @@ const AddProduct = () => {
               <option value="Donuts">Donuts</option>
             </select>
           </label>
+          <p className="form-message__error">
+            {errors.category?.message?.toString()}
+          </p>
           <label>
             Photo URL:
             <input
+              {...register("photoUrl", {
+                required: "This is required.",
+              })}
               type="text"
-              name="photoUrl"
               className="form-input"
-              value={formValues.photoUrl}
-              onChange={handleInputChange}
             />
           </label>
+          <p className="form-message__error">
+            {errors.photoUrl?.message?.toString()}
+          </p>
           <label>
             Description:
             <textarea
-              name="description"
-              maxLength={200}
+              {...register("description", {
+                required: "This is required.",
+              })}
               className="input-description"
-              value={formValues.description}
-              onChange={handleInputChange}
             />
           </label>
+          <p className="form-message__error">
+            {errors.description?.message?.toString()}
+          </p>
           <label>
             Recommended?
             <Checkbox
-              name="isRecommended"
-              checked={formValues.isRecommended}
-              onChange={handleInputChange}
+              {...register("isRecommended", {})}
+              onChange={handleCheckboxChange}
             ></Checkbox>
           </label>
-          <div className="form-message">
-            {isFormSubmitted && !isFormValid && (
-              <p className="form-message__error">
-                Please fill in all the fields!
-              </p>
-            )}
-            {isFormSubmitted && isFormValid && (
-              <p className="form-message__success">Added a new product!</p>
-            )}
-          </div>
+          {showSuccessMessage && (
+            <p className="form-message__success">Product added!</p>
+          )}
           <button className="cart-button" type="submit">
             Add Product
           </button>

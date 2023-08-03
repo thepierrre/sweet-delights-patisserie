@@ -1,30 +1,45 @@
-import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useContext, useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import axios from "../../../axiosInstance";
+import LoginContext from "../../../context/login-context";
 import Checkbox from "@mui/material/Checkbox";
-import useForm from "../../../hooks/form-hook";
+import { useForm } from "react-hook-form";
 import Card from "../../shared/Card";
-
-import "./EditProduct.css";
 
 const EditProduct = () => {
   const { productId } = useParams();
-
-  const {
-    formValues,
-    setFormValues,
-    handleInputChange,
-    isFormValid,
-    isFormSubmitted,
-    setIsFormSubmitted,
-  } = useForm({
+  const [showSuccessMessage, setShowSuccessMessage] = useState(false);
+  const { loggedIn } = useContext(LoginContext);
+  const navigate = useNavigate();
+  const [formValues, setFormValues] = useState({
     name: "",
-    price: undefined,
+    price: "",
     description: "",
     category: "",
     photoUrl: "",
     isRecommended: false,
   });
+
+  const isAdmin = loggedIn === "admin";
+
+  useEffect(() => {
+    if (!isAdmin) {
+      // Redirect to another page (e.g., login page) if the user is not an admin
+      navigate("/login");
+    }
+  });
+
+  const {
+    register,
+    handleSubmit,
+    setValue,
+    formState: { errors },
+  } = useForm();
+
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { checked } = event.target;
+    setValue("isRecommended", checked);
+  };
 
   useEffect(() => {
     const fetchProductToEditHandler = async () => {
@@ -33,36 +48,36 @@ const EditProduct = () => {
         const productData = res.data.product;
         const categoryName = res.data.category;
 
-        setFormValues({
-          name: productData.name,
-          price: productData.price,
-          description: productData.description,
-          category: categoryName,
-          photoUrl: productData.photoUrl,
-        });
-      } catch (err) {}
+        setValue("name", productData.name);
+        setValue("price", productData.price);
+        setValue("description", productData.description);
+        setValue("category", categoryName);
+        setValue("photoUrl", productData.photoUrl);
+        setValue("isRecommended", productData.isRecommended);
+      } catch (err) {
+        console.log(err);
+      }
     };
 
     fetchProductToEditHandler();
   }, [productId]);
 
-  const editProductHandler = async (event: React.FormEvent) => {
-    event.preventDefault();
-    setIsFormSubmitted(true);
-
-    if (isFormValid) {
-      try {
-        await axios.patch(`products/${productId}`, {
-          name: formValues.name,
-          price: formValues.price,
-          description: formValues.description,
-          category: formValues.category,
-          photoUrl: formValues.photoUrl,
-          isRecommended: formValues.isRecommended,
-        });
-      } catch (err) {
-        console.log(err);
-      }
+  const onSubmit = async (formData: any) => {
+    try {
+      await axios.patch(`products/${productId}`, {
+        name: formData.name,
+        price: formData.price,
+        description: formData.description,
+        category: formData.category,
+        photoUrl: formData.photoUrl,
+        isRecommended: formData.isRecommended,
+      });
+      setShowSuccessMessage(true);
+      setTimeout(() => {
+        setShowSuccessMessage(false);
+      }, 3000);
+    } catch (err) {
+      console.log(err);
     }
   };
 
@@ -70,37 +85,43 @@ const EditProduct = () => {
     <Card>
       <div className="cart">
         <h2>Edit the Product</h2>
-        <form className="product-form" onSubmit={editProductHandler}>
+        <form className="product-form" onSubmit={handleSubmit(onSubmit)}>
           <label>
             Name:
             <input
+              {...register("name", {
+                required: "This is required.",
+              })}
               type="text"
-              name="name"
-              maxLength={30}
-              value={formValues.name}
-              onChange={handleInputChange}
               className="form-input"
             />
           </label>
+          <p className="form-message__error">
+            {errors.name?.message?.toString()}
+          </p>
           <label>
             Price:
             <input
+              {...register("price", {
+                required: "This is required.",
+              })}
               type="number"
+              step="0.01"
               className="form-input"
-              step={0.01}
-              name="price"
-              value={formValues.price}
-              onChange={handleInputChange}
             />
           </label>
+          <p className="form-message__error">
+            {errors.price?.message?.toString()}
+          </p>
           <label>
             Category:
             <br />
             <select
-              name="category"
+              {...register("category", {
+                required: "This is required.",
+              })}
               className="category"
-              value={formValues.category}
-              onChange={handleInputChange}
+              defaultValue="Cupcakes"
             >
               <option value="Cupcakes">Cupcakes</option>
               <option value="Cakes">Cakes</option>
@@ -108,43 +129,46 @@ const EditProduct = () => {
               <option value="Donuts">Donuts</option>
             </select>
           </label>
+          <p className="form-message__error">
+            {errors.category?.message?.toString()}
+          </p>
           <label>
             Photo URL:
             <input
+              {...register("photoUrl", {
+                required: "This is required.",
+              })}
               type="text"
-              name="photoUrl"
               className="form-input"
-              value={formValues.photoUrl}
-              onChange={handleInputChange}
             />
           </label>
+          <p className="form-message__error">
+            {errors.photoUrl?.message?.toString()}
+          </p>
           <label>
             Description:
             <textarea
-              name="description"
-              maxLength={200}
+              {...register("description", {
+                required: "This is required.",
+              })}
               className="input-description"
-              value={formValues.description}
-              onChange={handleInputChange}
             />
           </label>
+          <p className="form-message__error">
+            {errors.description?.message?.toString()}
+          </p>
           <label>
             Recommended?
             <Checkbox
-              name="isRecommended"
-              checked={formValues.isRecommended}
-              onChange={handleInputChange}
+              {...register("isRecommended", {})}
+              onChange={handleCheckboxChange}
             ></Checkbox>
           </label>
-          <div className="form-message">
-            {isFormSubmitted && !isFormValid && (
-              <p className="form-message__error">
-                Please fill in all the fields!
-              </p>
-            )}
-          </div>
+          {showSuccessMessage && (
+            <p className="form-message__success">Changes saved!</p>
+          )}
           <button className="cart-button" type="submit">
-            Save Changes
+            Add Product
           </button>
         </form>
       </div>

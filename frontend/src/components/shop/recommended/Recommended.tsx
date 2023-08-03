@@ -43,8 +43,11 @@ const Recommended = () => {
     1: {
       slidesPerView: 1,
     },
-    1300: {
+    1150: {
       slidesPerView: 2,
+    },
+    1500: {
+      slidesPerView: 3,
     },
   };
 
@@ -52,10 +55,10 @@ const Recommended = () => {
     <Swiper
       spaceBetween={20}
       centeredSlides={false}
-      loop={true}
+      loop={false}
       speed={1000}
       autoplay={{
-        delay: 5000,
+        delay: 4000,
         disableOnInteraction: false,
       }}
       pagination={{

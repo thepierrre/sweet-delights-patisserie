@@ -1,3 +1,19 @@
 .credits-sources {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   font-family: "Ubuntu";
+}
+
+.source-link {
+  text-decoration: none;
+  color: rgb(42, 42, 42);
+}
+
+.source-link:hover {
+  color: rgb(175, 57, 91);
+}
+
+.source-link > p {
+  margin: 0.3rem;
 }
