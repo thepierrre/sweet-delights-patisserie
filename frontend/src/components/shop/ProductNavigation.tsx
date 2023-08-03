@@ -6,7 +6,6 @@ import cupcake from "../../static/product-categories/cupcake.png";
 import cake from "../../static/product-categories/cake.png";
 import pie from "../../static/product-categories/pie.png";
 import donut from "../../static/product-categories/donut.png";
-import candy from "../../static/product-categories/candy.png";
 
 const ProductNavigation = () => {
   return (

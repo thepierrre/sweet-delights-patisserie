@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt");
 const mongoose = require("mongoose");
 
 const User = require("../models/user");
@@ -6,10 +7,30 @@ const HttpError = require("../models/http-error");
 const createUser = async (req, res, next) => {
   const { name, email, password } = req.body;
 
+  const hashPassword = async (passwd) => {
+    try {
+      const saltRounds = 10;
+      passwd = password;
+      const hashedPassword = await bcrypt.hash(passwd, saltRounds);
+      return hashedPassword;
+    } catch (err) {
+      const error = new HttpError("Couldn't hash the password.", 500);
+      return next(error);
+    }
+  };
+
+  let hashedPassword;
+
+  try {
+    hashedPassword = await hashPassword(password); // Call the hashPassword function here to get the hashed password.
+  } catch (err) {
+    return next(err);
+  }
+
   const createdUser = new User({
     name,
     email,
-    password,
+    hashedPassword,
   });
 
   try {

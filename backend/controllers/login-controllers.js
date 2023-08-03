@@ -1,3 +1,4 @@
+const bcrypt = require("bcrypt");
 const session = require("express-session");
 
 const mongoose = require("mongoose");
@@ -18,8 +19,27 @@ const logInUser = async (req, res, next) => {
     return next(error);
   }
 
-  if (!user || user.password !== password) {
-    const error = new HttpError("Invalid email or password.", 401);
+  // if (!user || user.password !== password) {
+  //   const error = new HttpError("Invalid email or password.", 401);
+  //   return next(error);
+  // }
+
+  if (!user) {
+    const error = new HttpError("Invalid email.", 401);
+    return next(error);
+  }
+
+  try {
+    const isPasswordMatched = await bcrypt.compare(
+      password,
+      user.hashedPassword
+    );
+    if (!isPasswordMatched || !user) {
+      const error = new HttpError("Invalid password.", 401);
+      return next(error);
+    }
+  } catch (err) {
+    const error = new Error("Error! Something went wrong.");
     return next(error);
   }
 

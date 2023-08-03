@@ -4,7 +4,7 @@ import "./About.css";
 
 const About = () => {
   return (
-    <div className="cart about">
+    <div className="about">
       <h2>About</h2>
       <div className="about-element history">
         <h3>Our History</h3>

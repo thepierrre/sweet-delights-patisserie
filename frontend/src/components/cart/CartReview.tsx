@@ -41,7 +41,7 @@ const CartReview = () => {
   };
 
   return (
-    <div className="cart">
+    <div className="container">
       {cart.items.length !== 0 && (
         <>
           <h2>Your Cart</h2>
@@ -51,13 +51,13 @@ const CartReview = () => {
           </div>
           <div className="cart-review__buttons">
             {loggedIn && (
-              <Link to="/cart-final">
-                <button className="cart-button next">Shipping & Payment</button>
+              <Link to="/final">
+                <button className="button next">Shipping & Payment</button>
               </Link>
             )}
             {!loggedIn && (
               <Link to="/login">
-                <button className="cart-button next">Log In</button>
+                <button className="button next">Log In</button>
               </Link>
             )}
           </div>
@@ -67,7 +67,7 @@ const CartReview = () => {
         <>
           <p className="cart-empty">Your cart is empty!</p>
           <Link to="/home">
-            <button className="cart-button">Go shopping</button>
+            <button className="button">Go shopping</button>
           </Link>
         </>
       )}

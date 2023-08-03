@@ -39,7 +39,7 @@ input {
   text-align: center;
 }
 
-.cart-buttons {
+.buttons {
   display: flex;
   gap: 2rem;
 }
@@ -66,14 +66,35 @@ input {
   font-size: 1rem;
 }
 
-.cart-button.buy:disabled {
+.button.buy:disabled {
   background-color: rgb(164, 164, 164);
 }
 
 @media only screen and (max-width: 600px) {
-  .cart > div > h3 {
+  .container > h2 {
+    font-size: 1rem;
+  }
+
+  .container .address-form > h3 {
+    width: 100%;
     font-size: 1.5rem;
     margin-bottom: 1.75rem;
+  }
+
+  .address-form {
+    width: 100%;
+  }
+
+  .address-form > label {
+    width: 80%;
+  }
+
+  .address-form > label > input {
+    width: 90%;
+  }
+
+  .address-form > label > select {
+    width: 100%;
   }
 
   .go-back {

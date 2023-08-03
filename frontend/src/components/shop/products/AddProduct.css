@@ -12,7 +12,7 @@
 }
 
 .product-form > label > .form-input {
-  width: 25rem;
+  width: 90%;
 }
 
 .input-description {
@@ -29,7 +29,7 @@
 }
 
 .category {
-  width: 27rem;
+  width: 26.5rem;
   padding: 1rem;
   margin-top: 0.5rem;
   border: none;
@@ -83,6 +83,11 @@ textarea {
   .product-form {
     width: 100%;
   }
+
+  .container > h2 {
+    font-size: 2rem;
+  }
+
   .product-form > label {
     display: flex;
     align-items: center;
@@ -93,8 +98,8 @@ textarea {
     width: 90%;
   }
 
-  .category {
-    width: 100%;
+  .product-form > label > select {
+    width: 95%;
   }
 
   .input-description {
