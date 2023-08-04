@@ -4,16 +4,19 @@ import LoginContext from "../../../context/login-context";
 import { Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
+import DoneIcon from "@mui/icons-material/Done";
 
 import "./ProductItem.css";
 
 import ProductsContext from "../../../context/products-context";
+import { truncate } from "lodash";
 
 const ProductItem = (props: any) => {
   const [amountToAdd, setAmountToAdd] = useState(1);
+  const [addedToCart, setAddedToCart] = useState(false);
   const { addToCart } = useContext(ProductsContext);
   const { loggedIn } = useContext(LoginContext);
-  const { id, name, description, photoUrl, price } = props;
+  const { id, name, description, photoUrl, price, fetchProducts } = props;
 
   const increaseAmountToAdd = () => {
     if (amountToAdd < 99) {
@@ -38,11 +41,16 @@ const ProductItem = (props: any) => {
     amount: number
   ) => {
     addToCart(id, name, price, amount);
+    setAddedToCart(true);
+    setTimeout(() => {
+      setAddedToCart(false);
+    }, 1000);
   };
 
   const handleDeleteProduct = async () => {
     try {
       await axios.delete(`products/${id}`);
+      await fetchProducts();
     } catch (err) {
       console.log(err);
     }
@@ -59,11 +67,11 @@ const ProductItem = (props: any) => {
         <div className="product-item__text-body">
           <div className="product-item__description">{description}</div>
           <div className="product-item__actions">
-            <p className="increase" onClick={decreaseAmountToAdd}>
+            <p className="increase-decrease" onClick={decreaseAmountToAdd}>
               −
             </p>
             <div className="actions_padded">{amountToAdd}</div>
-            <p className="increase" onClick={increaseAmountToAdd}>
+            <p className="increase-decrease" onClick={increaseAmountToAdd}>
               +
             </p>
             <div
@@ -71,6 +79,9 @@ const ProductItem = (props: any) => {
               onClick={() => onAddToCart(id, name, price, amountToAdd)}
             >
               Add to Cart
+            </div>
+            <div className="tick-container">
+              {addedToCart && <DoneIcon color="success" fontSize="large" />}
             </div>
             {loggedIn === "admin" && (
               <>

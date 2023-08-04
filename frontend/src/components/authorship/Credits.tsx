@@ -15,7 +15,7 @@ const Credits = () => {
   ));
 
   return (
-    <div className="cart credits">
+    <div className="container credits">
       <h3>Sources of the Pictures</h3>
       <div className="credits-sources">{imagesSources}</div>
     </div>

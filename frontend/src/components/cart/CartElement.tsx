@@ -17,16 +17,27 @@ const CartElement: React.FC<CartItem> = (props: any) => {
   return (
     <li className="cart-product-item">
       <div className="cart-item__amount">
-        <p className="increase" onClick={() => decreaseCartElement(id)}>
+        <p
+          className="increase-decrease"
+          onClick={() => decreaseCartElement(id)}
+        >
           −
         </p>
         <p className="number">{amount}</p>
-        <p className="increase" onClick={() => incrementCartElement(id)}>
+        <p
+          className="increase-decrease"
+          onClick={() => incrementCartElement(id)}
+        >
           +
         </p>
       </div>
       <p className="cart-product-item__name">{name}</p>
-      <p className="cart-product-item__price">€{totalItemPrice}</p>
+      <p className="cart-product-item__price">
+        {new Intl.NumberFormat("en-US", {
+          style: "currency",
+          currency: "EUR",
+        }).format(totalItemPrice)}
+      </p>
     </li>
   );
 };

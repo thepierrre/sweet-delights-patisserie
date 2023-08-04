@@ -57,6 +57,7 @@
 
 .button:hover {
   background: rgb(118, 13, 43);
+  cursor: pointer;
 }
 
 .cart-empty {

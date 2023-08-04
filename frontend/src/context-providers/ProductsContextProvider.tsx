@@ -5,6 +5,7 @@ import ProductsContext, {
   RecommendedProduct,
   PurchaseInfo,
 } from "../context/products-context";
+import _, { update } from "lodash";
 
 interface Props {
   children: ReactNode;
@@ -43,24 +44,20 @@ const ProductsContextProvider: React.FC<Props> = (props) => {
       );
 
       if (existingItemIndex !== -1) {
-        const updatedCartItems = [...prevCart.items];
-        updatedCartItems[existingItemIndex].amount += 1;
+        const updatedCartItems = _.cloneDeep(prevCart.items);
+        updatedCartItems[existingItemIndex].amount += amount;
         const updatedCart = { ...prevCart, items: updatedCartItems };
         saveCartToLocalStorage(updatedCart); // Save updated cart to localStorage
         return updatedCart;
       } else {
         const updatedCart = {
           ...prevCart,
-          items: [...prevCart.items, { id, name, price, amount: amount }],
+          items: [...prevCart.items, { id, name, price, amount }],
         };
         saveCartToLocalStorage(updatedCart); // Save updated cart to localStorage
         return updatedCart;
       }
     });
-
-    console.log(cart);
-
-    saveCartToLocalStorage(cart);
   };
 
   const deleteCartFromLocalStorage = (): void => {
@@ -72,15 +69,13 @@ const ProductsContextProvider: React.FC<Props> = (props) => {
 
     if (existingItemIndex !== -1) {
       setCart((prevCart: Cart) => {
-        const updatedCartItems = [...prevCart.items];
+        const updatedCartItems = _.cloneDeep(prevCart.items);
         updatedCartItems[existingItemIndex].amount += 1;
         const updatedCart = { ...prevCart, items: updatedCartItems };
         saveCartToLocalStorage(updatedCart);
         return updatedCart;
       });
     }
-
-    console.log(cart);
   };
 
   const decreaseCartElement = (id: string): void => {
@@ -88,7 +83,7 @@ const ProductsContextProvider: React.FC<Props> = (props) => {
 
     if (existingItemIndex !== -1) {
       setCart((prevCart: Cart) => {
-        const updatedCartItems = [...prevCart.items];
+        const updatedCartItems = _.cloneDeep(prevCart.items);
         if (updatedCartItems[existingItemIndex].amount === 1) {
           // If amount is already 1, remove the item from the array
           updatedCartItems.splice(existingItemIndex, 1);

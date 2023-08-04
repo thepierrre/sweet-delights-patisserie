@@ -1,17 +1,21 @@
 import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import LoginContext from "../../context/login-context";
+import ProductsContext from "../../context/products-context";
 import "./Header.css";
 import mainLogo from "../../static/main-logo.png";
 import axios from "../../axiosInstance";
 
 const Header = () => {
   const { loggedIn, setLoggedIn } = useContext(LoginContext);
+  const { cart } = useContext(ProductsContext);
 
   const handleLogOutUser = () => {
     axios.get("login/logout");
     setLoggedIn("");
   };
+
+  const cartAmount = cart.items.reduce((total, item) => total + item.amount, 0);
 
   return (
     <header className="header">
@@ -55,14 +59,21 @@ const Header = () => {
             </li>
           )}
           <NavLink to="/cart-review" className="main-nav__element">
-            <li>Cart</li>
+            <li className="cart-bar">
+              <p>Cart</p>
+              {cart.items.length !== 0 && (
+                <div className="cart-amount">{cartAmount}</div>
+              )}
+            </li>
           </NavLink>
-          <NavLink
-            to="/add-product"
-            className="main-nav__element add-product-button"
-          >
-            <li>Add Product</li>
-          </NavLink>
+          {loggedIn === "admin" && (
+            <NavLink
+              to="/add-product"
+              className="main-nav__element add-product-button"
+            >
+              <li>Add Product</li>
+            </NavLink>
+          )}
         </ul>
       </nav>
     </header>

@@ -10,17 +10,17 @@ const Products = () => {
   const { products, setProducts } = useContext(ProductsContext);
   const { categoryName } = useParams();
 
-  useEffect(() => {
-    const fetchProducts = async () => {
-      try {
-        const res = await axios.get(`products/category/${categoryName}`);
-        let response = res.data.categoryWithProducts.products;
-        setProducts(response);
-      } catch (error) {
-        console.error("Error fetching products:", error);
-      }
-    };
+  const fetchProducts = async () => {
+    try {
+      const res = await axios.get(`products/category/${categoryName}`);
+      let response = res.data.categoryWithProducts.products;
+      setProducts(response);
+    } catch (error) {
+      console.error("Error fetching products:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchProducts();
   }, [categoryName]);
 
@@ -33,6 +33,7 @@ const Products = () => {
       photoUrl={product["photoUrl"]}
       price={product["price"]}
       isRecommended={product["isRecommended"]}
+      fetchProducts={fetchProducts}
     />
   ));
 

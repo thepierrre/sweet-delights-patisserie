@@ -13,9 +13,13 @@ const LoginContextProvider: React.FC<Props> = (props) => {
 
   useEffect(() => {
     const getUser = async () => {
-      const response = await axios.get("login/me");
-      const { name } = response.data.user;
-      setLoggedIn(name);
+      try {
+        const response = await axios.get("login/me");
+        const { name } = response.data.user;
+        setLoggedIn(name);
+      } catch {
+        // empty on purpose
+      }
     };
     getUser();
   }, []);

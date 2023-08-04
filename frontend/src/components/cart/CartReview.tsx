@@ -66,7 +66,7 @@ const CartReview = () => {
       {cart.items.length === 0 && (
         <>
           <p className="cart-empty">Your cart is empty!</p>
-          <Link to="/home">
+          <Link to="/">
             <button className="button">Go shopping</button>
           </Link>
         </>
