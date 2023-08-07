@@ -41,5 +41,5 @@ In addition to regular users' functionalities, the website also includes a numbe
 At the bottom of each item, next to the cart options, the admin has the option of deleting the item (this function cannot be reversed, as it permanently deletes the product from the database) or editing it. The product editing page looks as follows, with the current product data being prepopulated for the admin:
 
 <p align="center">
-<img src="./frontend/src/static/others/new-product.png" alt="Logo" width="25%" height="25%">
+<img src="./frontend/src/static/others/new-product.png" alt="Logo" width="50%" height="50%">
 </p>
