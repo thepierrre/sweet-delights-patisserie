@@ -6,7 +6,7 @@ import ProductsContext from "../../context/products-context";
 import "./CartFinal.css";
 
 const CartFinal = () => {
-  const { purchaseInfo, setPurchaseInfo } = useContext(ProductsContext);
+  const { setPurchaseInfo } = useContext(ProductsContext);
 
   const {
     register,

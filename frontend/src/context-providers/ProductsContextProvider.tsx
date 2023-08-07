@@ -5,7 +5,7 @@ import ProductsContext, {
   RecommendedProduct,
   PurchaseInfo,
 } from "../context/products-context";
-import _, { update } from "lodash";
+import _ from "lodash";
 
 interface Props {
   children: ReactNode;

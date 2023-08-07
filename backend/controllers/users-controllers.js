@@ -22,7 +22,7 @@ const createUser = async (req, res, next) => {
   let hashedPassword;
 
   try {
-    hashedPassword = await hashPassword(password); // Call the hashPassword function here to get the hashed password.
+    hashedPassword = await hashPassword(password);
   } catch (err) {
     return next(err);
   }

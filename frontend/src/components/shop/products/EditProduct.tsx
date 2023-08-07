@@ -157,7 +157,7 @@ const EditProduct = () => {
           <p className="form-message__success">Changes saved!</p>
         )}
         <button className="button" type="submit">
-          Add Product
+          Save
         </button>
       </form>
     </div>

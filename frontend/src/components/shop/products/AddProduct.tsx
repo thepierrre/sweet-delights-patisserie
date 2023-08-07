@@ -33,7 +33,7 @@ const AddProduct = () => {
 
   const onSubmit = async (formData: any) => {
     try {
-      const product = await axios.post("products", {
+      await axios.post("products", {
         name: formData.name,
         price: formData.price,
         description: formData.description,
@@ -41,9 +41,9 @@ const AddProduct = () => {
         photoUrl: formData.photoUrl,
         isRecommended: formData.isRecommended,
       });
-      setShowSuccessMessage(true); // Show the success message
+      setShowSuccessMessage(true);
       setTimeout(() => {
-        setShowSuccessMessage(false); // Hide the success message after 3 seconds (you can adjust the duration as needed)
+        setShowSuccessMessage(false);
       }, 3000);
     } catch (err) {
       console.log(err);

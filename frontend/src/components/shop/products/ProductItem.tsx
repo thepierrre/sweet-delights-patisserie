@@ -5,11 +5,8 @@ import { Link } from "react-router-dom";
 import EditIcon from "@mui/icons-material/Edit";
 import DeleteIcon from "@mui/icons-material/Delete";
 import DoneIcon from "@mui/icons-material/Done";
-
 import "./ProductItem.css";
-
 import ProductsContext from "../../../context/products-context";
-import { truncate } from "lodash";
 
 const ProductItem = (props: any) => {
   const [amountToAdd, setAmountToAdd] = useState(1);

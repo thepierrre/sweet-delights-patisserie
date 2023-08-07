@@ -1,13 +1,11 @@
 import { useContext } from "react";
 import { CartItem } from "../../context/products-context";
-import AddCircleIcon from "@mui/icons-material/AddCircle";
-import IconButton from "@mui/material/IconButton";
 import ProductsContext from "../../context/products-context";
 
 import "./CartElement.css";
 
 const CartElement: React.FC<CartItem> = (props: any) => {
-  const { cart, incrementCartElement, decreaseCartElement } =
+  const { incrementCartElement, decreaseCartElement } =
     useContext(ProductsContext);
 
   const { id, name, amount, price } = props;

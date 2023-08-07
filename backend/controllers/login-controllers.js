@@ -19,11 +19,6 @@ const logInUser = async (req, res, next) => {
     return next(error);
   }
 
-  // if (!user || user.password !== password) {
-  //   const error = new HttpError("Invalid email or password.", 401);
-  //   return next(error);
-  // }
-
   if (!user) {
     const error = new HttpError("Invalid email.", 401);
     return next(error);
@@ -45,7 +40,6 @@ const logInUser = async (req, res, next) => {
 
   let token;
   try {
-    //Creating jwt token
     token = jwt.sign(
       { userId: user._id, email: user.email },
       "secretkeyappearshere",
@@ -58,9 +52,10 @@ const logInUser = async (req, res, next) => {
   }
 
   res.cookie("token", token, {
-    expires: new Date(Date.now() + 60 * 60 * 1000), // time until expiration
-    secure: false, // set to true if you're using https
+    expires: new Date(Date.now() + 60 * 60 * 1000),
+    secure: true,
     httpOnly: true,
+    sameSite: "none",
   });
   res.status(200).json({ user: user.toObject() });
 };

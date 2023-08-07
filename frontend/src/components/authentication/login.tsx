@@ -8,7 +8,7 @@ import "./login.css";
 
 const LogIn = () => {
   const navigate = useNavigate();
-  const [invalidCredentials, setInvalidCredentials] = useState(undefined);
+  const [_invalidCredentials, setInvalidCredentials] = useState(undefined);
   const { setLoggedIn } = useContext(LoginContext);
 
   const {
@@ -25,7 +25,7 @@ const LogIn = () => {
       });
       const { name } = response.data.user;
       setLoggedIn(name);
-      navigate("/");
+      navigate(-1);
     } catch (err: any) {
       setInvalidCredentials(err.response.data.message);
     }

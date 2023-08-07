@@ -8,7 +8,6 @@ const createProduct = async (req, res, next) => {
   const { name, price, description, category, photoUrl, isRecommended } =
     req.body;
 
-  // Check if all the required fields have been filled in.
   if (!name || !price || !description || !category || !photoUrl) {
     const error = new HttpError("Please fill in all the fields.", 400);
     return next(error);
@@ -126,9 +125,9 @@ const getProductById = async (req, res, next) => {
   let product, category;
   try {
     product = await Product.findById(productId);
-    category = product.category; // get category id
-    category = await Category.findById(category); // find category with the given id
-    category = category.name; // find out the name of the category with the given id
+    category = product.category;
+    category = await Category.findById(category);
+    category = category.name;
   } catch (err) {
     const error = new HttpError("Fetching the product failed.", 500);
     return next(error);
