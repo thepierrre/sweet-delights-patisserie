@@ -4,7 +4,7 @@
 <img src="https://cdn-icons-png.flaticon.com/512/3173/3173443.png" alt="Logo" width="25%" height="25%">
 </p>
 
-<p><a href="https://sweet-delights-patisserie.netlify.app/">LINK TO THE PAGE</a></p>
+<p align="center"><a href="https://sweet-delights-patisserie.netlify.app/">LINK TO THE PAGE</a></p>
 
 <h2 align="center">Technologies Used</h2>
 
