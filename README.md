@@ -62,4 +62,4 @@ The admin can also add a new product to the database by clicking "Add Product" d
 
 <h2 align="center">Project Installation</h2>
 
-To install the project, enter /frontend and /backend, and run _npm install_ in each of the directories.
+To install the project, enter _/frontend_ and _/backend_, and run _npm install_ in each of the directories.
