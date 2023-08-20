@@ -2,14 +2,17 @@ import { useContext, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import LoginContext from "../../context/login-context";
+import ProductsContext from "../../context/products-context";
 import axios from "../../axiosInstance";
 
 import "./login.css";
 
 const LogIn = () => {
   const navigate = useNavigate();
-  const [_invalidCredentials, setInvalidCredentials] = useState(undefined);
+  const [serverError, setServerError] = useState(undefined);
   const { setLoggedIn } = useContext(LoginContext);
+  const { getCartFromLocalStorage, removeCartFromLocalStorage, setCart } =
+    useContext(ProductsContext);
 
   const {
     register,
@@ -23,11 +26,48 @@ const LogIn = () => {
         email: formData.email,
         password: formData.password,
       });
-      const { name } = response.data.user;
+      const { name, _id } = response.data.user;
       setLoggedIn(name);
-      navigate(-1);
+
+      // const cartFromLocalStorage = getCartFromLocalStorage();
+      // removeCartFromLocalStorage();
+      // await axios.post("carts", {
+      //   user: _id,
+      //   items: cartFromLocalStorage.items,
+      // });
+
+      const cartFromLocalStorage = getCartFromLocalStorage();
+      const modifiedCartItems = cartFromLocalStorage.items.map((item) => {
+        return {
+          _id: item.id, // Rename id to _id
+          name: item.name,
+          price: item.price,
+          amount: item.amount,
+        };
+      });
+
+      removeCartFromLocalStorage();
+
+      await axios.post("carts", {
+        user: _id,
+        items: modifiedCartItems, // Use the modified cart items
+      });
+
+      navigate("/");
     } catch (err: any) {
-      setInvalidCredentials(err.response.data.message);
+      setServerError(err.response.data.message);
+    }
+
+    // try {
+    //   const response = await axios.get
+    // } catch (err: any) {
+    //   console.log(err.response.data.message);
+    // }
+  };
+
+  const handleInputChange = () => {
+    if (serverError) {
+      setServerError(undefined);
     }
   };
 
@@ -49,6 +89,7 @@ const LogIn = () => {
               })}
               type="text"
               name="email"
+              onChange={handleInputChange}
             />
           </label>
           <p className="form-message__error">
@@ -61,11 +102,13 @@ const LogIn = () => {
                 required: "This is required.",
               })}
               type="password"
+              onChange={handleInputChange}
             />
           </label>
           <p className="form-message__error">
             {errors.password?.message?.toString()}
           </p>
+          {serverError && <p className="form-message__error">{serverError}</p>}
           <button type="submit" className="button">
             Log in
           </button>

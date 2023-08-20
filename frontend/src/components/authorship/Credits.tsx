@@ -16,7 +16,8 @@ const Credits = () => {
 
   return (
     <div className="container credits">
-      <h3>Sources of the Pictures</h3>
+      <h3 className="sources-header">Sources of the Pictures</h3>
+      <h4>(Login is Required)</h4>
       <div className="credits-sources">{imagesSources}</div>
     </div>
   );

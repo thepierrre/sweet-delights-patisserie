@@ -1,12 +1,14 @@
 import axios from "../../axiosInstance";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import "./signup.css";
 
 const SignUp = () => {
+  const navigate = useNavigate();
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [isAdminError, setIsAdminError] = useState(false);
+  const [serverError, setServerError] = useState(undefined);
 
   const {
     register,
@@ -17,25 +19,30 @@ const SignUp = () => {
   const onSubmit = async (formData: any) => {
     try {
       if (formData.name.toLowerCase() === "admin") {
-        // Check if the name is "admin"
-        setIsAdminError(true); // Show the admin error message
-        setTimeout(() => {
-          setIsAdminError(false); // Hide the admin error message after 3 seconds
-        }, 3000);
-        return; // Return early, don't make the API call
+        setIsAdminError(true);
+        return;
       }
-
       await axios.post("users", {
         name: formData.name,
         email: formData.email,
         password: formData.password,
       });
-      setIsSubmitted(true); // Show the success message
+      setIsSubmitted(true);
       setTimeout(() => {
-        setIsSubmitted(false); // Hide the success message after 3 seconds (you can adjust the duration as needed)
+        setIsSubmitted(false);
       }, 3000);
-    } catch (err) {
-      console.log(err);
+      navigate("/login");
+    } catch (err: any) {
+      setServerError(err.response.data.message);
+    }
+  };
+
+  const handleInputChange = () => {
+    if (serverError) {
+      setServerError(undefined);
+    }
+    if (isAdminError) {
+      setIsAdminError(false);
     }
   };
 
@@ -51,6 +58,7 @@ const SignUp = () => {
                 required: "This is required.",
               })}
               type="text"
+              onChange={handleInputChange}
             />
           </label>
           <p className="form-message__error">
@@ -68,6 +76,7 @@ const SignUp = () => {
                 },
               })}
               type="text"
+              onChange={handleInputChange}
             />
           </label>
           <p className="form-message__error">
@@ -99,6 +108,7 @@ const SignUp = () => {
               You can't register as an admin!
             </p>
           )}
+          {serverError && <p className="form-message__error">{serverError}</p>}
           {isSubmitted && (
             <p className="form-message__success">Registered a user!</p>
           )}

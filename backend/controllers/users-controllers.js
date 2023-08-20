@@ -7,6 +7,14 @@ const HttpError = require("../models/http-error");
 const createUser = async (req, res, next) => {
   const { name, email, password } = req.body;
 
+  try {
+    const userWithEmail = await User.findOne({ email: email });
+    if (userWithEmail) {
+      const error = new HttpError("This e-mail is already taken.", 409);
+      return next(error);
+    }
+  } catch (err) {}
+
   const hashPassword = async (passwd) => {
     try {
       const saltRounds = 10;
