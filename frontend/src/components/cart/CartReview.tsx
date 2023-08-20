@@ -1,5 +1,5 @@
-import { useContext, useEffect } from "react";
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Link, createSearchParams, useNavigate } from "react-router-dom";
 import ProductsContext from "../../context/products-context";
 import LoginContext from "../../context/login-context";
 import CartElement from "./CartElement";
@@ -7,14 +7,9 @@ import CartElement from "./CartElement";
 import "./CartReview.css";
 
 const CartReview = () => {
-  const { cart, setCart } = useContext(ProductsContext);
+  const navigate = useNavigate();
+  const { cart } = useContext(ProductsContext);
   const { loggedIn } = useContext(LoginContext);
-
-  useEffect(() => {
-    const cartFromLocalStorage = getCartFromLocalStorage();
-    setCart(cartFromLocalStorage);
-    console.log(cart);
-  }, []);
 
   const cartItems = cart.items.map((item) => (
     <CartElement
@@ -26,19 +21,19 @@ const CartReview = () => {
     />
   ));
 
+  const logInToProceedHandler = () => {
+    navigate({
+      pathname: "/login",
+      search: createSearchParams({
+        navigateToSummary: "true",
+      }).toString(),
+    });
+  };
+
   const totalPurchasePrice = cart.items.reduce(
-    (total, item) => total + item.price,
+    (total, item) => total + item.price * item.amount,
     0
   );
-
-  const getCartFromLocalStorage = () => {
-    const cartJSON = localStorage.getItem("cart");
-    if (cartJSON) {
-      return JSON.parse(cartJSON);
-    } else {
-      return { items: [] }; // Return an empty cart if it's not found in localStorage
-    }
-  };
 
   return (
     <div className="container">
@@ -47,7 +42,13 @@ const CartReview = () => {
           <h2>Your Cart</h2>
           <ul className="cart-products-list">{cartItems}</ul>
           <div className="total">
-            <p>Total: €{totalPurchasePrice}</p>
+            <p>
+              Total Price:{" "}
+              {new Intl.NumberFormat("en-US", {
+                style: "currency",
+                currency: "EUR",
+              }).format(totalPurchasePrice)}
+            </p>
           </div>
           <div className="cart-review__buttons">
             {loggedIn && (
@@ -56,9 +57,11 @@ const CartReview = () => {
               </Link>
             )}
             {!loggedIn && (
-              <Link to="/login">
-                <button className="button next">Log In</button>
-              </Link>
+              // <Link to="/login">
+              <button className="button next" onClick={logInToProceedHandler}>
+                Log In To Proceed
+              </button>
+              // </Link>
             )}
           </div>
         </>
