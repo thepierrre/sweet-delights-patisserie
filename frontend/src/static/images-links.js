@@ -48,3 +48,6 @@ const cheesecake =
 
 const cheesecakePhoto =
   "https://img.freepik.com/free-photo/cheese-cake_74190-5877.jpg?w=1380&t=st=1690468114~exp=1690468714~hmac=f249a40631a043f0db986e8eb3b38232e70e28f77d189381dc87295056ee2812";
+
+const cartAnimation =
+  "https://lordicon.com/icons/wired/lineal/146-basket-trolley-shopping-card";

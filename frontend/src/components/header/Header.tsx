@@ -2,17 +2,21 @@ import { useContext } from "react";
 import { NavLink } from "react-router-dom";
 import LoginContext from "../../context/login-context";
 import ProductsContext from "../../context/products-context";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import "./Header.css";
 import mainLogo from "../../static/main-logo.png";
 import axios from "../../axiosInstance";
 
 const Header = () => {
   const { loggedIn, setLoggedIn } = useContext(LoginContext);
-  const { cart } = useContext(ProductsContext);
+  const { cart, setCart, removeCartFromLocalStorage } =
+    useContext(ProductsContext);
 
   const handleLogOutUser = () => {
     axios.get("login/logout");
     setLoggedIn("");
+    removeCartFromLocalStorage();
+    setCart({ items: [] });
   };
 
   const cartAmount = cart.items.reduce((total, item) => total + item.amount, 0);
@@ -33,7 +37,7 @@ const Header = () => {
           </div>
           <div className="main-logo__text">
             <h1>Sweet Delights</h1>
-            <h2>— Est. 1954 —</h2>
+            <h2>— Est. 1903 —</h2>
           </div>
           <div className="main-logo__picture">
             <img src={mainLogo} />
@@ -59,8 +63,8 @@ const Header = () => {
             </li>
           )}
           <NavLink to="/cart-review" className="main-nav__element">
-            <li className="cart-bar">
-              <p>Cart</p>
+            <li className="cart-nav__element">
+              <ShoppingCartIcon />
               {cart.items.length !== 0 && (
                 <div className="cart-amount">{cartAmount}</div>
               )}

@@ -49,7 +49,7 @@ At the bottom of each item, next to the cart options, the admin has the option o
 The product editing page looks as follows, with the current product data being prepopulated for the admin:
 
 <p align="center">
-<img src="./frontend/src/static/others/edit-delete.png" alt="Logo" width="90%" height="90%">
+<img src="./frontend/src/static/others/edit-product.png" alt="Logo" width="90%" height="90%">
 </p>
 
 <h3 align="center">Add Product</h3>

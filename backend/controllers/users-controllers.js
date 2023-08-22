@@ -7,6 +7,14 @@ const HttpError = require("../models/http-error");
 const createUser = async (req, res, next) => {
   const { name, email, password } = req.body;
 
+  try {
+    const userWithEmail = await User.findOne({ email: email });
+    if (userWithEmail) {
+      const error = new HttpError("This e-mail is already taken.", 409);
+      return next(error);
+    }
+  } catch (err) {}
+
   const hashPassword = async (passwd) => {
     try {
       const saltRounds = 10;
@@ -27,17 +35,28 @@ const createUser = async (req, res, next) => {
     return next(err);
   }
 
+  async function createCart() {
+    const Cart = mongoose.model("Cart");
+    const newCart = new Cart();
+    await newCart.save();
+    return newCart._id;
+  }
+
+  const cartId = await createCart();
+
   const createdUser = new User({
     name,
     email,
     hashedPassword,
+    cart: cartId,
   });
 
   try {
     await createdUser.save();
   } catch (err) {
-    const error = new HttpError("Couldn't register a new user.", 500);
-    return next(error);
+    // const error = new HttpError("Couldn't register a new user.", 500);
+    console.log(err);
+    return next(err);
   }
 
   res.status(201).json({ user: createdUser.toObject() });

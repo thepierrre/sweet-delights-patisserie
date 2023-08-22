@@ -14,7 +14,7 @@ const About = () => {
           </div>
           <div className="about-element__content-text">
             <p>
-              Since 1954, <i>Sweet Delights</i> has been a cherished destination
+              Since 1903, <i>Sweet Delights</i> has been a cherished destination
               for connoisseurs of delectable treats in the heart of Munich,
               close to the famous Marienplatz. Our journey began with a
               passionate baker's dream, and over the decades, we have lovingly

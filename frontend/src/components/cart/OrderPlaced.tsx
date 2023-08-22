@@ -6,10 +6,10 @@ import "./OrderPlaced.css";
 import packet from "../../static/others/package.png";
 
 const OrderPlaced = () => {
-  const { purchaseInfo } = useContext(ProductsContext);
+  const { purchaseInfo, setCart } = useContext(ProductsContext);
 
   useEffect(() => {
-    console.log(purchaseInfo);
+    setCart({ items: [] });
   }, []);
 
   return (
@@ -40,7 +40,7 @@ const OrderPlaced = () => {
                 <br />
                 to the following account:
               </h3>
-              <p>DE900 123 000 987 123</p>
+              <p>DE00 123 456 789</p>
             </>
           )}
         </div>

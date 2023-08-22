@@ -4,6 +4,7 @@ const cookieParser = require("cookie-parser");
 const session = require("cookie-session");
 const { v4: uuidv4 } = require("uuid");
 const productsRoutes = require("./routes/products-routes");
+const cartRoutes = require("./routes/cart-routes");
 const categoriesRoutes = require("./routes/categories-routes");
 const usersRoutes = require("./routes/users-routes");
 const loginRoutes = require("./routes/login-routes");
@@ -42,7 +43,7 @@ app.use((req, res, next) => {
   );
   res.setHeader(
     "Access-Control-Allow-Methods",
-    "GET, POST, PATCH, DELETE, OPTIONS"
+    "GET, POST, PATCH, PUT, DELETE, OPTIONS"
   );
   res.setHeader("Access-Control-Allow-Credentials", "true");
   next();
@@ -51,6 +52,7 @@ app.use((req, res, next) => {
 app.use("/api/categories", categoriesRoutes);
 app.use("/api/products", productsRoutes);
 app.use("/api/users", usersRoutes);
+app.use("/api/carts", cartRoutes);
 app.use("/api/login", loginRoutes);
 app.use("/api/session/", sessionRoutes);
 app.use((err, req, res, next) => {
@@ -58,7 +60,7 @@ app.use((err, req, res, next) => {
 });
 
 mongoose
-  .connect(MONGODB)
+  .connect(mongoDBConnect)
   .then(() => {
     app.listen(port);
     console.log("Connected to the database!");

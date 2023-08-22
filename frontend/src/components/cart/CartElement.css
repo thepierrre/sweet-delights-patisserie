@@ -1,13 +1,37 @@
+.cart-product-item {
+  display: flex;
+  align-items: center;
+  padding: 1rem;
+  width: 100%;
+}
+
 .cart-product-item__name {
   margin-left: 1.5rem;
-  width: 30rem;
+  width: 70%;
 }
 
 .cart-item__amount {
   display: flex;
+  justify-content: center;
   gap: 0.3rem;
   color: rgb(175, 57, 91);
   transition: transform 0.1s ease-in-out;
+  width: 10%;
+}
+
+.cart-item__amount .number {
+  width: 40%;
+  text-align: center;
+}
+
+.cart-product-item__price {
+  width: 10%;
+  text-align: right;
+}
+
+.cart-product-item__remove {
+  width: 10%;
+  text-align: center;
 }
 
 .cart-item__amount .increase-decrease {
@@ -17,6 +41,6 @@
 .cart-item__amount .increase-decrease:hover {
   color: rgb(118, 13, 43);
   transition: transform 0.1s ease-in-out;
-  transform: scale(1.4);
+  transform: scale(1.2);
   cursor: pointer;
 }
