@@ -37,7 +37,6 @@ const createProduct = async (req, res, next) => {
     await categoryObj.save({ session: sess });
     await sess.commitTransaction();
   } catch (err) {
-    console.log(err);
     const error = new HttpError("Could not add a new product.", 500);
     return next(error);
   }
