@@ -9,7 +9,7 @@ import ClearIcon from "@mui/icons-material/Clear";
 import "./CartElement.css";
 
 const CartElement: React.FC<CartItem> = (props: any) => {
-  const { incrementCartElement, decreaseCartElement, deleteCartElement } =
+  const { incrementCartElement, decreaseCartElement, deleteCartItem } =
     useContext(ProductsContext);
 
   const { id, name, amount, price } = props;
@@ -50,7 +50,7 @@ const CartElement: React.FC<CartItem> = (props: any) => {
                 transform: "scale(1.2)",
               },
             }}
-            onClick={() => deleteCartElement(id)}
+            onClick={() => deleteCartItem(id)}
           >
             <ClearIcon color="primary" fontSize="small" />
           </IconButton>

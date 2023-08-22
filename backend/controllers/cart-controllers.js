@@ -6,117 +6,141 @@ const CartProduct = require("../models/cart-product");
 const HttpError = require("../models/http-error");
 
 const getCartByUserId = async (req, res, next) => {
-  const { userId } = req.body;
+  const { userId } = req.params;
 
-  let user;
   try {
-    user = await User.findById(userId);
+    const user = await User.findById(userId);
+    console.log(user);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    const cart = await Cart.findById(user.cart).populate("cartProducts");
+
+    if (!cart) {
+      return res.status(404).json({ message: "Cart not found for this user" });
+    }
+
+    res.json({ cart: cart.toObject() });
   } catch (err) {
     console.log(err);
     return next(err);
   }
-
-  let cart;
-
-  try {
-    cart = await Cart.findOne({
-      user: user,
-    });
-  } catch (err) {
-    // const error = new HttpError("Fetching the user's cart failed.", 500);
-    console.log(err);
-    return next(err);
-  }
-
-  res.json({ cart: cart.toObject() });
 };
 
-const createCart = async (req, res, next) => {
-  const { user, items } = req.body;
+const clearCart = async (req, res, next) => {
+  const { userId } = req.params;
 
-  let currUser;
   try {
-    currUser = await User.findById(user);
+    let user = await User.findById(userId);
+    if (!user) {
+      return next(new HttpError("User doesn't exist.", 404));
+    }
+    await Cart.findOneAndUpdate(
+      { _id: user.cart },
+      { $set: { cartProducts: [] } },
+      { new: true }
+    );
   } catch (err) {
-    const error = new HttpError("Couldn't find the user.", 500);
-    return next(error);
+    console.log(err);
   }
 
-  if (!currUser) {
-    const error = new HttpError("User doesn't exist.", 401);
-    return next(error);
-  }
+  res.status(200).json({ message: "Cart cleared successfully." });
+};
 
-  let cart;
+const deleteCartItem = async (req, res, next) => {
+  const { userId, itemId } = req.params;
+
   try {
-    cart = await Cart.findOne({ user: currUser._id });
+    let user = await User.findById(userId);
+    if (!user) {
+      return next(new HttpError("User doesn't exist.", 404));
+    }
   } catch (err) {
-    const error = new HttpError("Error fetching the user's cart.", 500);
-    return next(error);
+    console.log(err);
   }
 
-  if (!cart) {
-    cart = new Cart({
-      user: currUser._id,
-      cartProducts: [],
-    });
+  let itemToDelete;
+  try {
+    itemToDelete = await CartProduct.findById(itemId).populate("cart");
+    // itemToDelete = await CartProduct.findById(itemId);
+  } catch (err) {
+    console.log(err);
   }
 
   try {
     const sess = await mongoose.startSession();
     sess.startTransaction();
+    await CartProduct.deleteOne({ _id: itemId }).session(sess);
+    itemToDelete.cart.cartProducts.pull(itemToDelete);
+    await itemToDelete.cart.save({ session: sess });
+    await sess.commitTransaction();
+  } catch (err) {
+    console.log(err);
+  }
+
+  res.status(200).json({ message: "The item has been deleted from the cart." });
+};
+
+const updateCart = async (req, res, next) => {
+  const { items } = req.body;
+  const { userId } = req.params;
+
+  try {
+    let user = await User.findById(userId);
+    if (!user) {
+      return next(new HttpError("User doesn't exist.", 404));
+    }
+
+    let cart = await Cart.findById(user.cart).populate("cartProducts");
+    if (!cart) {
+      return next(new HttpError("User's cart doesn't exist.", 404));
+    }
+
+    const sess = await mongoose.startSession();
+    sess.startTransaction();
 
     for (const item of items) {
-      const { name, price, amount, _id } = item;
+      const { id, name, price, amount } = item;
 
-      const newCartProduct = new CartProduct({
-        _id,
-        name,
-        price,
-        amount,
-        cart: cart._id,
-      });
-      cart.cartProducts.push(newCartProduct);
-      await newCartProduct.save({ session: sess });
+      const existingCartProduct = await CartProduct.findById(id);
+
+      if (existingCartProduct) {
+        existingCartProduct.name = name;
+        existingCartProduct.price = price;
+        existingCartProduct.amount = amount;
+
+        await existingCartProduct.save({ session: sess });
+      } else {
+        const newCartProduct = new CartProduct({
+          _id: id,
+          name,
+          price,
+          amount,
+          cart: cart._id,
+        });
+        cart.cartProducts.push(newCartProduct);
+        await newCartProduct.save({ session: sess });
+      }
     }
 
     await cart.save({ session: sess });
-    currUser.cart = cart._id;
-    await currUser.save({ session: sess });
+    user.cart = cart._id;
+    await user.save({ session: sess });
     await sess.commitTransaction();
 
     res.status(201).json({
       cart: cart.toObject(),
     });
   } catch (err) {
-    // const error = new HttpError("Could not add a new cart to the user.", 500);
-    console.log(err);
-    return next(err);
+    console.error(err);
+    return next(new HttpError("Error updating the cart.", 500));
   }
 };
 
 module.exports = {
-  createCart,
   getCartByUserId,
+  updateCart,
+  deleteCartItem,
+  clearCart,
 };
-
-// for (const item of items) {
-//     const { name, price, amount } = item;
-
-//     if (item.name) {
-//       const existingCartItem = cart.cartProducts.find(
-//         (cartItem) => cartItem.name === name
-//       );
-//       if (existingCartItem) {
-//         existingCartItem.amount += amount;
-//       } else {
-//         const newCartProduct = new CartProduct({
-//           name,
-//           price,
-//           amount,
-//           cart: cart._id,
-//         });
-//         cart.cartProducts.push(newCartProduct);
-//         await newCartProduct.save({ session: sess });
-//       }
-//     }

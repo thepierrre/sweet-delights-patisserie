@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { Link } from "react-router-dom";
+import { Link, createSearchParams, useNavigate } from "react-router-dom";
 import ProductsContext from "../../context/products-context";
 import LoginContext from "../../context/login-context";
 import CartElement from "./CartElement";
@@ -7,6 +7,7 @@ import CartElement from "./CartElement";
 import "./CartReview.css";
 
 const CartReview = () => {
+  const navigate = useNavigate();
   const { cart } = useContext(ProductsContext);
   const { loggedIn } = useContext(LoginContext);
 
@@ -19,6 +20,15 @@ const CartReview = () => {
       price={item.price}
     />
   ));
+
+  const logInToProceedHandler = () => {
+    navigate({
+      pathname: "/login",
+      search: createSearchParams({
+        navigateToSummary: "true",
+      }).toString(),
+    });
+  };
 
   const totalPurchasePrice = cart.items.reduce(
     (total, item) => total + item.price * item.amount,
@@ -33,7 +43,7 @@ const CartReview = () => {
           <ul className="cart-products-list">{cartItems}</ul>
           <div className="total">
             <p>
-              Total:{" "}
+              Total Price:{" "}
               {new Intl.NumberFormat("en-US", {
                 style: "currency",
                 currency: "EUR",
@@ -47,9 +57,11 @@ const CartReview = () => {
               </Link>
             )}
             {!loggedIn && (
-              <Link to="/login">
-                <button className="button next">Log In</button>
-              </Link>
+              // <Link to="/login">
+              <button className="button next" onClick={logInToProceedHandler}>
+                Log In To Proceed
+              </button>
+              // </Link>
             )}
           </div>
         </>

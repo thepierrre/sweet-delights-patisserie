@@ -6,7 +6,7 @@ import ProductsContext, {
   PurchaseInfo,
 } from "../context/products-context";
 import LoginContext from "../context/login-context";
-
+import axios from "../axiosInstance";
 import _ from "lodash";
 
 interface Props {
@@ -14,7 +14,7 @@ interface Props {
 }
 
 const ProductsContextProvider: React.FC<Props> = (props) => {
-  const { loggedIn } = useContext(LoginContext);
+  const { loggedIn, userId } = useContext(LoginContext);
   const { children } = props;
   const [purchaseInfo, setPurchaseInfo] = useState<PurchaseInfo>({
     paymentOption: "cash", // Set the initial value of paymentOption to "cash"
@@ -30,9 +30,41 @@ const ProductsContextProvider: React.FC<Props> = (props) => {
   >([]);
   const [cart, setCart] = useState<Cart>({ items: [] });
 
+  const getCartFromLocalStorage = () => {
+    const cartJSON = localStorage.getItem("cart");
+    if (cartJSON) {
+      return JSON.parse(cartJSON);
+    } else {
+      return { items: [] }; // Return an empty cart if it's not found in localStorage
+    }
+  };
+
   const saveCartToLocalStorage = (cart: Cart): void => {
     const cartJSON = JSON.stringify(cart);
     localStorage.setItem("cart", cartJSON);
+  };
+
+  const removeCartFromLocalStorage = () => {
+    localStorage.removeItem("cart");
+  };
+
+  const updateCart = async () => {
+    const cartFromLocalStorage: any = getCartFromLocalStorage();
+    try {
+      await axios.put(`carts/${userId}/update`, {
+        items: cartFromLocalStorage.items,
+      });
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  const clearCart = async () => {
+    try {
+      await axios.put(`carts/${userId}/clear`);
+    } catch (err) {
+      console.log(err);
+    }
   };
 
   const addToCart = (
@@ -51,29 +83,43 @@ const ProductsContextProvider: React.FC<Props> = (props) => {
         const updatedCartItems = _.cloneDeep(prevCart.items);
         updatedCartItems[existingItemIndex].amount += amount;
         updatedCart = { ...prevCart, items: updatedCartItems };
-        // saveCartToLocalStorage(updatedCart);
-        // return updatedCart;
+        saveCartToLocalStorage(updatedCart);
+        updateCart();
+        return updatedCart;
       } else {
         updatedCart = {
           ...prevCart,
           items: [...prevCart.items, { id, name, price, amount }],
         };
-        // saveCartToLocalStorage(updatedCart);
-        // return updatedCart;
-      }
-
-      if (!loggedIn) {
         saveCartToLocalStorage(updatedCart);
+        if (loggedIn !== "") {
+          updateCart();
+        }
+        return updatedCart;
       }
-      return updatedCart;
     });
   };
 
-  const deleteCartFromLocalStorage = (): void => {
-    localStorage.removeItem("cart");
+  const deleteCartItem = async (itemId: string): Promise<void> => {
+    const existingItemIndex = cart.items.findIndex(
+      (item) => item.id === itemId
+    );
+
+    if (existingItemIndex !== -1) {
+      await axios.delete(`carts/${userId}/${itemId}`);
+      setCart((prevCart: Cart) => {
+        const updatedCartItems = _.cloneDeep(prevCart.items);
+        const filteredCartItems = updatedCartItems.filter(
+          (item) => item.id !== itemId
+        );
+        const updatedCart = { ...prevCart, items: filteredCartItems };
+        saveCartToLocalStorage(updatedCart);
+        return updatedCart;
+      });
+    }
   };
 
-  const incrementCartElement = (id: string): void => {
+  const incrementCartElement = async (id: string) => {
     const existingItemIndex = cart.items.findIndex((item) => item.id === id);
 
     if (existingItemIndex !== -1) {
@@ -82,6 +128,7 @@ const ProductsContextProvider: React.FC<Props> = (props) => {
         updatedCartItems[existingItemIndex].amount += 1;
         const updatedCart = { ...prevCart, items: updatedCartItems };
         saveCartToLocalStorage(updatedCart);
+        updateCart();
         return updatedCart;
       });
     }
@@ -93,47 +140,21 @@ const ProductsContextProvider: React.FC<Props> = (props) => {
     if (existingItemIndex !== -1) {
       setCart((prevCart: Cart) => {
         const updatedCartItems = _.cloneDeep(prevCart.items);
+
         if (updatedCartItems[existingItemIndex].amount === 1) {
           updatedCartItems.splice(existingItemIndex, 1);
+          deleteCartItem(id);
         } else {
           updatedCartItems[existingItemIndex].amount -= 1;
         }
+
         const updatedCart = { ...prevCart, items: updatedCartItems };
         saveCartToLocalStorage(updatedCart);
+        setCart(updatedCart);
+        updateCart();
         return updatedCart;
       });
     }
-
-    console.log(cart);
-  };
-
-  const deleteCartElement = (id: string): void => {
-    const existingItemIndex = cart.items.findIndex((item) => item.id === id);
-
-    if (existingItemIndex !== -1) {
-      setCart((prevCart: Cart) => {
-        const updatedCartItems = _.cloneDeep(prevCart.items);
-        const filteredCartItems = updatedCartItems.filter(
-          (item) => item.id !== id
-        );
-        const updatedCart = { ...prevCart, items: filteredCartItems };
-        saveCartToLocalStorage(updatedCart);
-        return updatedCart;
-      });
-    }
-  };
-
-  const getCartFromLocalStorage = () => {
-    const cartJSON = localStorage.getItem("cart");
-    if (cartJSON) {
-      return JSON.parse(cartJSON);
-    } else {
-      return { items: [] }; // Return an empty cart if it's not found in localStorage
-    }
-  };
-
-  const removeCartFromLocalStorage = () => {
-    localStorage.removeItem("cart");
   };
 
   return (
@@ -150,10 +171,13 @@ const ProductsContextProvider: React.FC<Props> = (props) => {
         addToCart,
         incrementCartElement,
         decreaseCartElement,
-        deleteCartFromLocalStorage,
-        deleteCartElement,
+        // deleteCartFromLocalStorage,
         getCartFromLocalStorage,
         removeCartFromLocalStorage,
+        updateCart,
+        saveCartToLocalStorage,
+        deleteCartItem,
+        clearCart,
       }}
     >
       {children}
@@ -162,3 +186,8 @@ const ProductsContextProvider: React.FC<Props> = (props) => {
 };
 
 export default ProductsContextProvider;
+
+// await axios.post("carts/create-cart", {
+//   user: _id,
+//   items: modifiedCartItems,
+// });

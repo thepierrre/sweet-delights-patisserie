@@ -19,6 +19,12 @@
   text-decoration: none;
   color: rgb(118, 13, 43);
 }
+.registration-complete__message {
+  font-family: "Ubuntu";
+  margin: 0 0 2rem 0;
+  font-size: 1.2rem;
+  color: rgb(0, 111, 0);
+}
 
 @media only screen and (max-width: 600px) {
   .switch-text {

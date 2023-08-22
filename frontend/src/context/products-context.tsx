@@ -51,9 +51,12 @@ interface ProductsContextType {
   deleteCartFromLocalStorage: () => void;
   incrementCartElement: (id: string) => void;
   decreaseCartElement: (id: string) => void;
-  deleteCartElement: (id: string) => void;
   getCartFromLocalStorage: () => Cart;
   removeCartFromLocalStorage: () => void;
+  updateCart: () => void;
+  saveCartToLocalStorage: (cart: Cart) => void;
+  deleteCartItem: (itemId: string) => void;
+  clearCart: () => void;
 }
 
 const ProductsContext = createContext<ProductsContextType>(

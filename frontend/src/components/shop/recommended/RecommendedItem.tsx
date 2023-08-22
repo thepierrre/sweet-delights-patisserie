@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 import LoginContext from "../../../context/login-context";
 import ProductsContext from "../../../context/products-context";
 import EditIcon from "@mui/icons-material/Edit";
-import DoneIcon from "@mui/icons-material/Done";
 import DeleteIcon from "@mui/icons-material/Delete";
 import "./RecommendedItem.css";
+import cartImg from "../../../../public/cart-image.gif";
+import _ from "lodash";
 
 const RecommendedItem = (props: any) => {
   const [amountToAdd, setAmountToAdd] = useState(1);
@@ -66,7 +67,9 @@ const RecommendedItem = (props: any) => {
               Add to Cart
             </div>
             <div className="tick-container">
-              {addedToCart && <DoneIcon color="success" fontSize="large" />}
+              {addedToCart && (
+                <img className="cart-animation" src={cartImg} alt="cart icon" />
+              )}
             </div>
             {loggedIn === "admin" && (
               <>

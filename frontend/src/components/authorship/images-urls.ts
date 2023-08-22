@@ -70,7 +70,8 @@ const images = [
   { name: "Main Logo: Cupcake", url: "https://www.freepik.com/icon/cupcake_3173443#fromView=search&term=cupcake&page=1&position=2" },
   { name: "About: Our History", url: "https://www.freepik.com/free-photo/decorating-delicious-homemade-eclairs-with-chocolate-peanuts_6778633.htm#query=tradition%20patisserie&position=2&from_view=search&track=country_rows_v1" },
   { name: "About: The Mission", url: "https://www.freepik.com/free-photo/flat-lay-tasty-muffin-baking-tray_10722852.htm#query=cupcakes%20with%20fruit&position=41&from_view=search&track=country_rows_v1" },
-  { name: "Product Purchased", url: "https://www.freepik.com/icon/gift_2559090#fromView=search&term=present&page=1&position=26"}
+  { name: "Product Purchased", url: "https://www.freepik.com/icon/gift_2559090#fromView=search&term=present&page=1&position=26"},
+  { name: "Cart Animation", url: "https://lordicon.com/icons/wired/lineal/146-basket-trolley-shopping-card"}
 ];
 
 

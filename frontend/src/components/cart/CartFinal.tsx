@@ -6,7 +6,7 @@ import ProductsContext from "../../context/products-context";
 import "./CartFinal.css";
 
 const CartFinal = () => {
-  const { setPurchaseInfo } = useContext(ProductsContext);
+  const { cart, setPurchaseInfo, clearCart } = useContext(ProductsContext);
 
   const {
     register,
@@ -23,6 +23,7 @@ const CartFinal = () => {
       postalCode: formData.postalCode,
       paymentOption: formData.paymentOption,
     });
+    clearCart();
   };
 
   const handleInputChange = (event: any) => {
@@ -33,6 +34,11 @@ const CartFinal = () => {
       [fieldName]: fieldValue,
     }));
   };
+
+  const totalPurchasePrice = cart.items.reduce(
+    (total, item) => total + item.price * item.amount,
+    0
+  );
 
   return (
     <div className="container">
@@ -112,7 +118,13 @@ const CartFinal = () => {
         </label>
       </form>
       <div className="total">
-        <p>Total Price: €95.94</p>
+        <p>
+          Total Price:{" "}
+          {new Intl.NumberFormat("en-US", {
+            style: "currency",
+            currency: "EUR",
+          }).format(totalPurchasePrice)}
+        </p>
       </div>
       <div className="buttons">
         <Link to="/cart-review">

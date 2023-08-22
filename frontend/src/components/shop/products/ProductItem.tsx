@@ -7,6 +7,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import DoneIcon from "@mui/icons-material/Done";
 import "./ProductItem.css";
 import ProductsContext from "../../../context/products-context";
+import cartImg from "../../../../public/cart-image.gif";
 
 const ProductItem = (props: any) => {
   const [amountToAdd, setAmountToAdd] = useState(1);
@@ -78,7 +79,9 @@ const ProductItem = (props: any) => {
               Add to Cart
             </div>
             <div className="tick-container">
-              {addedToCart && <DoneIcon color="success" fontSize="large" />}
+              {addedToCart && (
+                <img className="cart-animation" src={cartImg} alt="cart icon" />
+              )}
             </div>
             {loggedIn === "admin" && (
               <>

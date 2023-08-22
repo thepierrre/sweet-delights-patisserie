@@ -1,7 +1,7 @@
 import axios from "../../axiosInstance";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useNavigate, createSearchParams } from "react-router-dom";
 import "./signup.css";
 
 const SignUp = () => {
@@ -31,18 +31,15 @@ const SignUp = () => {
       setTimeout(() => {
         setIsSubmitted(false);
       }, 3000);
-      navigate("/login");
+      // navigate("/login");
+      navigate({
+        pathname: "/login",
+        search: createSearchParams({
+          newUser: "true",
+        }).toString(),
+      });
     } catch (err: any) {
       setServerError(err.response.data.message);
-    }
-  };
-
-  const handleInputChange = () => {
-    if (serverError) {
-      setServerError(undefined);
-    }
-    if (isAdminError) {
-      setIsAdminError(false);
     }
   };
 
@@ -58,7 +55,6 @@ const SignUp = () => {
                 required: "This is required.",
               })}
               type="text"
-              onChange={handleInputChange}
             />
           </label>
           <p className="form-message__error">
@@ -76,7 +72,6 @@ const SignUp = () => {
                 },
               })}
               type="text"
-              onChange={handleInputChange}
             />
           </label>
           <p className="form-message__error">
