@@ -66,7 +66,7 @@ const SignUp = () => {
               {...register("email", {
                 required: "This is required.",
                 validate: {
-                  matchPattern: (v) =>
+                  matchPattern: (v: any) =>
                     /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) ||
                     "Please enter a valid e-mail address.",
                 },

@@ -171,7 +171,6 @@ const ProductsContextProvider: React.FC<Props> = (props) => {
         addToCart,
         incrementCartElement,
         decreaseCartElement,
-        // deleteCartFromLocalStorage,
         getCartFromLocalStorage,
         removeCartFromLocalStorage,
         updateCart,

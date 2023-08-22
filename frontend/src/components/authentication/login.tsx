@@ -16,7 +16,6 @@ const LogIn = () => {
   const {
     getCartFromLocalStorage,
     saveCartToLocalStorage,
-    cart,
     setCart,
     updateCart,
   } = useContext(ProductsContext);

@@ -48,7 +48,6 @@ interface ProductsContextType {
   cart: Cart;
   setCart: Dispatch<SetStateAction<Cart>>;
   addToCart: (id: string, name: string, price: number, amount: number) => void;
-  deleteCartFromLocalStorage: () => void;
   incrementCartElement: (id: string) => void;
   decreaseCartElement: (id: string) => void;
   getCartFromLocalStorage: () => Cart;

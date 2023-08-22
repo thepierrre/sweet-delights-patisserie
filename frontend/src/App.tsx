@@ -47,11 +47,6 @@ const App = () => {
     }
   }, [userId]);
 
-  // useEffect(() => {
-  //   const cartFromLocalStorage = getCartFromLocalStorage();
-  //   setCart(cartFromLocalStorage);
-  // }, []);
-
   return (
     <div className="app">
       <Header />

@@ -12,10 +12,9 @@ const sessionRoutes = require("./routes/session-routes");
 
 const app = express();
 
-// const port = process.env.PORT;
-const port = 5002;
-// const mySecret = process.env.SECRET;
-// const mongoDBConnect = process.env.MONGODB;
+const port = process.env.PORT;
+const mySecret = process.env.SECRET;
+const mongoDBConnect = process.env.MONGODB;
 
 app.use(express.json());
 app.use(cookieParser());
@@ -25,8 +24,7 @@ app.use(
     genid: (req) => {
       return uuidv4();
     },
-    // secret: mySecret,
-    secret: "uOOw7fJQ4g7dxYP7RFtLV06pUCH6ofMoPa2@Yoiqlt",
+    secret: mySecret,
     resave: false,
     saveUninitialized: true,
     cookie: { maxAge: 604800000, httpOnly: true, secure: true },
@@ -37,8 +35,7 @@ app.use(
 app.use((req, res, next) => {
   res.setHeader(
     "Access-Control-Allow-Origin",
-    // "https://sweet-delights-patisserie.netlify.app"
-    "http://localhost:5174"
+    "https://sweet-delights-patisserie.netlify.app"
   );
   res.setHeader(
     "Access-Control-Allow-Headers",
@@ -63,10 +60,7 @@ app.use((err, req, res, next) => {
 });
 
 mongoose
-  // .connect(MONGODB)
-  .connect(
-    "mongodb+srv://piotrowczarczyk98:A8pQkRvBeV5IoUVh@e-shop-cluster.jfp1kue.mongodb.net/shop-app?retryWrites=true&w=majority"
-  )
+  .connect(mongoDBConnect)
   .then(() => {
     app.listen(port);
     console.log("Connected to the database!");

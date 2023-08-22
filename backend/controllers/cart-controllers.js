@@ -10,7 +10,6 @@ const getCartByUserId = async (req, res, next) => {
 
   try {
     const user = await User.findById(userId);
-    console.log(user);
     if (!user) {
       return res.status(404).json({ message: "User not found" });
     }
@@ -23,8 +22,7 @@ const getCartByUserId = async (req, res, next) => {
 
     res.json({ cart: cart.toObject() });
   } catch (err) {
-    console.log(err);
-    return next(err);
+    return next(new HttpError("Couldn't get the user.", 500));
   }
 };
 
@@ -42,7 +40,7 @@ const clearCart = async (req, res, next) => {
       { new: true }
     );
   } catch (err) {
-    console.log(err);
+    return next(new HttpError("Couldn't clear the cart.", 500));
   }
 
   res.status(200).json({ message: "Cart cleared successfully." });
@@ -63,9 +61,8 @@ const deleteCartItem = async (req, res, next) => {
   let itemToDelete;
   try {
     itemToDelete = await CartProduct.findById(itemId).populate("cart");
-    // itemToDelete = await CartProduct.findById(itemId);
   } catch (err) {
-    console.log(err);
+    return next(new HttpError("Couldn't delete the cart item.", 500));
   }
 
   try {
